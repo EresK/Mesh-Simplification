@@ -1,11 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.VisualBasic.CompilerServices;
+using PLY.Types;
 
-namespace PLYFormat
-{
+
+namespace PLY{
+
     public class PLYFormat
     {
         private PLYParser parser = new PLYParser();
@@ -40,9 +42,7 @@ namespace PLYFormat
                 // check Vertex<type>
                 List<Vertex<int>> vertexList = new List<Vertex<int>>();
 
-                //for (int i = 0; i < queue.Length; i++)
-                for (int i = 0; i < 2; i++)
-                {
+                for (int i = 0; i < queue.Length; i++) {
                     switch (queue[i])
                     {
                         case 'v':
@@ -83,21 +83,22 @@ namespace PLYFormat
                     }
                 }
 
+
                 for (int i = 0; i < edge; i++)
-                {
                     Console.WriteLine("{0}, {1}", edgeList[i].Vertex1, edgeList[i].Vertex2);
-                    //Console.WriteLine("{0}, {1}", edgeList.ElementAt(i).Vertex1, edgeList.ElementAt(i).Vertex2);
-                }
                 
-                for (int i = 0; i < face; i++)
-                {
+                for (int i = 0; i < face; i++) {
                     Console.WriteLine("{0}", faceList[i].Count);
-                    Console.Write(faceList[i].Vertices[0] + " ");
-                    Console.Write(faceList[i].Vertices[1] + " ");
-                    Console.WriteLine(faceList[i].Vertices[2]);
-                    //Console.WriteLine("{0}, {1}", edgeList.ElementAt(i).Vertex1, edgeList.ElementAt(i).Vertex2);
+                    for (int j = 0; j < faceList[i].Count; j++)
+                        Console.Write(faceList[i].Vertices[j] + " ");
+                    Console.WriteLine(); 
                 }
 
+                for (int i = 0; i < vertex; i++) {
+                    Console.WriteLine("{0}, {1}, {2}", vertexList[i].X, vertexList[i].Y, vertexList[i].Z);
+                }
+                
+                
                 /*string format = parser.GetFileFormat;
                 string endianness = parser.GetEndianness;
 

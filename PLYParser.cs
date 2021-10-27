@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-
-namespace PLYFormat
-{
+using PLY.Types;
+namespace PLY{
     class PLYParser
     {
         public PLYParser()
@@ -133,9 +132,9 @@ namespace PLYFormat
         {
             string[] words = line.Split(' ');
 
-            if (type == 'v')
-            {
-                
+            if (type == 'v') {
+                Vertex<int> v = new Vertex<int>(Convert.ToInt32(words[0]), Convert.ToInt32(words[1]), Convert.ToInt32(words[2]));
+                return v;
             }
             else if (type == 'f')
             {
@@ -230,23 +229,32 @@ namespace PLYFormat
                         break;
 
                     case "vertex":
+                        if (GE_vert)
+                            break;
                         GE_vert = true;
                         GE_face = false;
                         GE_edge = false;
+                        //Console.WriteLine("vertex: {0}", queueNumber);
                         Queue[queueNumber++] = 'v';
                         break;
 
                     case "face":
+                        if (GE_face)
+                            break;
                         GE_vert = false;
                         GE_face = true;
                         GE_edge = false;
+                        //Console.WriteLine("face: {0}", queueNumber);
                         Queue[queueNumber++] = 'f';
                         break;
 
                     case "edge":
+                        if (GE_edge)
+                            break;
                         GE_vert = false;
                         GE_face = false;
                         GE_edge = true;
+                        //Console.WriteLine("edge: {0}", queueNumber);
                         Queue[queueNumber++] = 'e';
                         break;
 
