@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using PLY.Types;
-namespace PLY{
-    class PLYParser
-    {
-        public PLYParser()
-        {
+namespace PLY {
+    class PLYParser {
+        public PLYParser() {
             format = "";
             endianness = "";
 
@@ -52,8 +50,7 @@ namespace PLY{
         public int GetFaceCount { get { return face; } }
         public int GetEdgeCount { get { return edge; } }
         public string GetXYZType { get { return XYZtype; } }
-
-
+        
         private bool PH_elem = false;
 
         /// <summary>
@@ -61,16 +58,11 @@ namespace PLY{
         /// </summary>
         /// <param name="line">line from the ply file</param>
         /// <returns>true - if it was end_header, false - otherwise</returns>
-        public bool ParseHeader(string line)
-        {
+        public bool ParseHeader(string line) {
             string[] words = line.Split(' ');
-
             bool headerEnd = false;
-
-            foreach(string word in words)
-            {
-                switch (word)
-                {
+            foreach(string word in words) {
+                switch (word) {
                     case "ply":
                         break;
 
@@ -82,13 +74,11 @@ namespace PLY{
                         break;
 
                     case "element":
-                        if (PH_elem)
-                        {
+                        if (PH_elem) {
                             ClearGE_flag();
                             GetElement(words);
                         }
-                        else
-                        {
+                        else {
                             PH_elem = true;
                             GetElement(words);
                         }
@@ -104,21 +94,19 @@ namespace PLY{
                         break;
                 }
             }
-
             return headerEnd;
         }
 
-        public void ParseData(string fileFormat, string fileEndianness)
-        {
-            switch (fileFormat)
-            {
+        public void ParseData(string fileFormat, string fileEndianness) {
+            switch (fileFormat) {
                 case "ascii":
                     // GetDataASCII
                     break;
                 case "binary":
                     // GetDataBinary
                     break;
-                default: throw new Exception("Unknown file format");
+                default: 
+                    throw new Exception("Unknown file format");
             }
         }
         
@@ -128,46 +116,50 @@ namespace PLY{
         /// <param name="line"></param>
         /// <param name="type"></param>
         /// <returns>return object as string type or exception if it is other</returns>
-        public object GetDataASCII(string line, char type)
-        {
+        public object GetDataASCII(string line, char type) {
             string[] words = line.Split(' ');
-
+            
             if (type == 'v') {
-                Vertex<int> v = new Vertex<int>(Convert.ToInt32(words[0]), Convert.ToInt32(words[1]), Convert.ToInt32(words[2]));
+                Vertex<Double> v = new Vertex<Double>(Convert.ToDouble(words[0]), Convert.ToDouble(words[1]), Convert.ToDouble(words[2]));
                 return v;
             }
-            else if (type == 'f')
-            {
+            if (type == 'f') {
                 int c = words.Length - 1;
                 List<int> l = new List<int>();
-                for (int i = 0; i < c; i++)
-                    l.Add(Convert.ToInt32(words[i + 1]));
+                for (int i = 0; i < c; i++) {
+                    try {
+                        l.Add(Convert.ToInt32(words[i + 1]));
+                    }
+                    catch (FormatException) {
+                        throw new Exception("Face incorrect format");
+                    }
+                }
                 Face f = new Face(c, l);
                 return f;
             }
-            else if (type == 'e')
-            {
-                int v1 = Convert.ToInt32(words[0]);
-                int v2 = Convert.ToInt32(words[1]);
-                Edge e = new Edge(v1, v2);
-                return e;
+            if (type == 'e') {
+                try {
+                    int v1 = Convert.ToInt32(words[0]);
+                    int v2 = Convert.ToInt32(words[1]);
+                    Edge e = new Edge(v1, v2);
+                    return e;
+                }
+                catch (FormatException) {
+                    throw new Exception("Edge incorrect format");
+                }
             }
-            else
-            {
-                throw new Exception("Unknown type");
-            }
-
-            return null;
+            throw new Exception("Unknown type");
         }
 
-        private void GetFormat(string[] words)
-        {
+        public object getDataBinary(string smth) { //correct type
+            return new object();
+        }
+
+        private void GetFormat(string[] words) {
             bool isFormat = false;
 
-            foreach(string word in words)
-            {
-                switch(word)
-                {
+            foreach(string word in words) {
+                switch(word) {
                     case "format":
                         isFormat = true;
                         break;
@@ -178,16 +170,14 @@ namespace PLY{
                         break;
 
                     case "binary_little_endian":
-                        if (isFormat)
-                        {
+                        if (isFormat) {
                             format = "binary";
                             endianness = "little";
                         }
                         break;
 
                     case "binary_big_endian":
-                        if (isFormat)
-                        {
+                        if (isFormat) {
                             format = "binary";
                             endianness = "big";
                         }
@@ -208,8 +198,7 @@ namespace PLY{
 
         private string GE_propstr = "";
 
-        private void ClearGE_flag()
-        {
+        private void ClearGE_flag() {
             GE_elem = false;
             GE_vert = false;
             GE_face = false;
@@ -218,12 +207,9 @@ namespace PLY{
             GE_propstr = "";
         }
 
-        private void GetElement(string[] words)
-        {
-            foreach (string word in words)
-            {
-                switch (word)
-                {
+        private void GetElement(string[] words){
+            foreach (string word in words) {
+                switch (word) {
                     case "element":
                         GE_elem = true;
                         break;
@@ -278,31 +264,25 @@ namespace PLY{
                         break;
 
                     default:
-                        try
-                        {
-                            if (GE_elem && GE_vert && (GE_countV == false))
-                            {
+                        try {
+                            if (GE_elem && GE_vert && (GE_countV == false)) {
                                 vertex = Convert.ToInt32(word);
                                 GE_countV = true;
                             }
-                            if (GE_elem && GE_face && (GE_countF == false))
-                            {
+                            if (GE_elem && GE_face && (GE_countF == false)) {
                                 face = Convert.ToInt32(word);
                                 GE_countF = true;
                             }
-                            if (GE_elem && GE_edge && (GE_countE == false))
-                            {
+                            if (GE_elem && GE_edge && (GE_countE == false)) {
                                 edge = Convert.ToInt32(word);
                                 GE_countE = true;
                             }
-                            if (GE_prop)
-                            {
+                            if (GE_prop) {
                                 GE_propstr = word;
                                 GE_prop = false;
                             }
                         }
-                        catch (Exception)
-                        {
+                        catch (Exception) {
                             throw new Exception("Can not convert string word to integer");
                         }
                         break;
