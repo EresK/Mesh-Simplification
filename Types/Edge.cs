@@ -1,31 +1,39 @@
-using System;
+﻿using System;
 
-namespace SMFReader {
-    public class Edge {
-        private int Vertex1;
-        private int Vertex2;
-        
-        public Edge(int v1, int v2) {
-            if (v1 < 0 || v2 < 0 )
-                throw new Exception("Vertex index can not be negative");
-            Vertex1 = v1;
-            Vertex2 = v2;
-        }
+public class Edge
+{
+    private int Vertex1;
+    private int Vertex2;
 
-        public int GetVertex1 { get { return Vertex1; } }
-        public int GetVertex2 { get { return Vertex2; } }
+    /// <summary>
+    /// Установка данных ребра.
+    /// </summary>
+    /// <param name="vertex1"> Индекс первой вершины. </param>
+    /// <param name="vertex2"> Индекс второй вершины. </param>
+    /// <exception cref="Exception"> Неположительный индекс вершины. </exception>
+    public Edge(int vertex1, int vertex2)
+    {
+        if (vertex1 < 0 || vertex2 < 0)
+            throw new Exception("Vertex index can not be negative");
 
-        // Unrecommended to use Set methods
-        public void SetVertex1(int v1) {
-            if (v1 < 0)
-                throw new Exception("Vertex index can not be negative");
-            Vertex1 = v1;
-        }
-
-        public void SetVertex2(int v2) {
-            if (v2 < 0)
-                throw new Exception("Vertex index can not be negative");
-            Vertex2 = v2;
-        }
+        Vertex1 = vertex1;
+        Vertex2 = vertex2;
+    }
+    
+    public int GetVertex1() { return Vertex1; }
+    public int GetVertex2() { return Vertex2; }
+    
+    public void SetVertex1(int vertex1)
+    {
+        if (vertex1 < 0)
+            throw new Exception("Edge: Vertex index can not be negative");
+        Vertex1 = vertex1;
+    }
+    
+    public void SetVertex2(int vertex2)
+    {
+        if (vertex2 < 0)
+            throw new Exception("Edge: Vertex index can not be negative");
+        Vertex2 = vertex2;
     }
 }
