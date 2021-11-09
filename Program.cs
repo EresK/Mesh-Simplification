@@ -1,20 +1,15 @@
 ﻿using System;
+using Object = PLY.Types.Object;
 
-namespace PLYFormat
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            string pathCube = @"C:\Users\Eres Swan\RiderProjects\cube.ply";
-            string pathCrank = @"C:\Users\Eres Swan\RiderProjects\crank.ply";
-            string onlyEdge = @"C:\Users\Eres Swan\RiderProjects\onlyEdge.ply";
-            PLYFormat pf = new PLYFormat();
-            //pf.ReadHeader(pathCube);
-            PLYFormat pf2 = new PLYFormat();
-            //pf2.ReadHeader(pathCrank);
+namespace PLY {
+    class Program {
+        static void Main(string[] args) {
+            string onlyEdge = @"/home/andrey/Downloads/cube.ply";
+            string write = @"/home/andrey/Downloads/help/cube.ply";
+                
             PLYFormat pf3 = new PLYFormat();
-            pf3.ReadHeader(onlyEdge);
+            Object figure = pf3.Reader(onlyEdge);
+            pf3.Writer(write, figure);
         }
     }
 }

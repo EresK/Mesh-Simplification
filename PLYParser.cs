@@ -49,6 +49,9 @@ namespace PLY {
         public int GetVertexCount { get { return vertex; } }
         public int GetFaceCount { get { return face; } }
         public int GetEdgeCount { get { return edge; } }
+        public string GetXType { get { return Xtype; } }
+        public string GetYType { get { return Ytype; } }
+        public string GetZType { get { return Ztype; } }
         public string GetXYZType { get { return XYZtype; } }
         
         private bool PH_elem = false;
