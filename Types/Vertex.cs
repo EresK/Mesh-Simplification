@@ -1,5 +1,5 @@
 namespace PLY.Types {
-    public class Vertex<Type> {
+    public class Vertex<Type> where Type : new(){
             public Type X;
             public Type Y;
             public Type Z;
@@ -8,6 +8,12 @@ namespace PLY.Types {
                 X = x;
                 Y = y;
                 Z = z;
+            }
+            
+            public Vertex() {
+                X = new Type();
+                Y = new Type();
+                Z = new Type();
             }
         }
 }

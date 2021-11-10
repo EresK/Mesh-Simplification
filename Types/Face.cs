@@ -9,5 +9,10 @@ namespace PLY.Types {
             Count = count;
             Vertices = vertices;
         }
+        
+        public Face() {
+            Count = new int();
+            Vertices = new List<int>();
+        }
     }
 }

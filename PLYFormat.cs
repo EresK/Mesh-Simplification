@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using Microsoft.VisualBasic.CompilerServices;
 using PLY.Types;
-using Object = PLY.Types.Object;
+using Model = PLY.Types.Model;
 
 
 namespace PLY {
     public class PLYFormat {
         private PLYParser parser = new PLYParser();
 
-        public Object Reader(string path) {
+        public Model Reader(string path) {
             FileInfo file = new FileInfo(path);
 
             if (!file.Exists) 
@@ -93,7 +93,7 @@ namespace PLY {
                 for (int i = 0; i < vertex; i++)
                     Console.WriteLine("{0}, {1}, {2}", vertexList[i].X, vertexList[i].Y, vertexList[i].Z);
 
-                Object figure = new Object(faceList, edgeList, vertexList);
+                Model figure = new Model(faceList, edgeList, vertexList);
                 return figure;
                 //Console.WriteLine();
                 //Console.WriteLine("{0} {1} {2}", parser.GetXType, parser.GetYType, parser.GetZType);
@@ -108,12 +108,12 @@ namespace PLY {
             }
         }
 
-        public String Writer(string path, Object figure){
+        public String Writer(string path, Model figure){
             //, Object figure
             string new_path = path.Insert(path.LastIndexOf(".", StringComparison.Ordinal), 
                 "_simplified");
             int pos = 0;
-            Console.WriteLine("new path = {0}", new_path);
+            //Console.WriteLine("new path = {0}", new_path);
             try{
                 using (StreamWriter file = new StreamWriter(new_path, false, System.Text.Encoding.Default)){
                     //write header
@@ -136,7 +136,7 @@ namespace PLY {
                         header += "property int vertex2\n";
                     }
                     header += "end_header";
-                    file.Write(header);
+                    file.WriteLine(header);
 
 
                     string main = "";

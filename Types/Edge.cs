@@ -7,5 +7,9 @@ namespace PLY.Types {
             Vertex1 = vertex1;
             Vertex2 = vertex2;
         }
+        public Edge() {
+            Vertex1 = new int();
+            Vertex2 = new int();
+        }
     }
 }
