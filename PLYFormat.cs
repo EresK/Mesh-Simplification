@@ -108,7 +108,7 @@ namespace PLY {
             }
         }
 
-        public void Writer(string path, Object figure){
+        public String Writer(string path, Object figure){
             //, Object figure
             string new_path = path.Insert(path.LastIndexOf(".", StringComparison.Ordinal), 
                 "_simplified");
@@ -176,6 +176,7 @@ namespace PLY {
             catch (Exception e){
                 Console.WriteLine(e.Message);
             }
+            return new_path;
         }
     }
 }
