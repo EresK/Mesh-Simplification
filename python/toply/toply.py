@@ -16,7 +16,7 @@ def toply(path):
 
 
 def main():
-    if len (sys.argv) > 1:
+    if len(sys.argv) > 1:
         path = sys.argv[1]
         toply(path)
     else:
