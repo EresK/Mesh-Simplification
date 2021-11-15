@@ -1,0 +1,63 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v5.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v5.0": {
+      "MashSimplificationLibrary/1.0.0": {
+        "dependencies": {
+          "FormatParserLibrary": "1.0.0",
+          "MashReformatLibrary": "1.0.0"
+        },
+        "runtime": {
+          "MashSimplificationLibrary.dll": {}
+        }
+      },
+      "FormatParserLibrary/1.0.0": {
+        "dependencies": {
+          "Types": "1.0.0"
+        },
+        "runtime": {
+          "FormatParserLibrary.dll": {}
+        }
+      },
+      "MashReformatLibrary/1.0.0": {
+        "dependencies": {
+          "Types": "1.0.0"
+        },
+        "runtime": {
+          "MashReformatLibrary.dll": {}
+        }
+      },
+      "Types/1.0.0": {
+        "runtime": {
+          "Types.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MashSimplificationLibrary/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "FormatParserLibrary/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MashReformatLibrary/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Types/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

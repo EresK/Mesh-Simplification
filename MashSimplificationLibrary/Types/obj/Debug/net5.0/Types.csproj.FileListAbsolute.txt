@@ -1,0 +1,12 @@
+C:\Users\unsto\source\repos\MashSimplificationLibrary\Types\bin\Debug\net5.0\Types.deps.json
+C:\Users\unsto\source\repos\MashSimplificationLibrary\Types\bin\Debug\net5.0\Types.dll
+C:\Users\unsto\source\repos\MashSimplificationLibrary\Types\bin\Debug\net5.0\ref\Types.dll
+C:\Users\unsto\source\repos\MashSimplificationLibrary\Types\bin\Debug\net5.0\Types.pdb
+C:\Users\unsto\source\repos\MashSimplificationLibrary\Types\obj\Debug\net5.0\Types.csproj.AssemblyReference.cache
+C:\Users\unsto\source\repos\MashSimplificationLibrary\Types\obj\Debug\net5.0\Types.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\unsto\source\repos\MashSimplificationLibrary\Types\obj\Debug\net5.0\Types.AssemblyInfoInputs.cache
+C:\Users\unsto\source\repos\MashSimplificationLibrary\Types\obj\Debug\net5.0\Types.AssemblyInfo.cs
+C:\Users\unsto\source\repos\MashSimplificationLibrary\Types\obj\Debug\net5.0\Types.csproj.CoreCompileInputs.cache
+C:\Users\unsto\source\repos\MashSimplificationLibrary\Types\obj\Debug\net5.0\Types.dll
+C:\Users\unsto\source\repos\MashSimplificationLibrary\Types\obj\Debug\net5.0\ref\Types.dll
+C:\Users\unsto\source\repos\MashSimplificationLibrary\Types\obj\Debug\net5.0\Types.pdb
