@@ -131,8 +131,7 @@ namespace PLY {
                 List<int> l = new List<int>();
 
                 int count = Convert.ToInt32(words[0]);
-                for (int i = 1; i <= count; i++) {//была какая-то хуйня с файлами и он неправильно\
-                                                  //читал появлялись какие-то доп слова при разбиении
+                for (int i = 1; i <= count; i++) {
                     try {
                         l.Add(Convert.ToInt32(words[i]));
                     }
