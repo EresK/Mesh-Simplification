@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 
 namespace PLY.Types{
@@ -9,9 +8,9 @@ namespace PLY.Types{
         public List<Vertex<double>> Vertices;
 
         public Model(List<Face> faces, List<Edge> edges, List<Vertex<double>> vertices){
-            Faces = faces;
-            Edges = edges;
-            Vertices = vertices;
+            Faces = new List<Face>(faces);
+            Edges = new List<Edge>(edges);
+            Vertices = new List<Vertex<double>>(vertices);
         }
 
         public Model(){

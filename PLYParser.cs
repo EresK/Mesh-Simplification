@@ -119,7 +119,7 @@ namespace PLY {
         /// <param name="line"></param>
         /// <param name="type"></param>
         /// <returns>return object as string type or exception if it is other</returns>
-        public object GetDataASCII(string line, char type) {
+        public object GetDataASCII(string line, char type){
             string[] words = line.Split(' ');
             
             if (type == 'v') {
@@ -129,12 +129,15 @@ namespace PLY {
             if (type == 'f') {
                 int c = words.Length - 1;
                 List<int> l = new List<int>();
-                for (int i = 0; i < c; i++) {
+
+                int count = Convert.ToInt32(words[0]);
+                for (int i = 1; i <= count; i++) {//была какая-то хуйня с файлами и он неправильно\
+                                                  //читал появлялись какие-то доп слова при разбиении
                     try {
-                        l.Add(Convert.ToInt32(words[i + 1]));
+                        l.Add(Convert.ToInt32(words[i]));
                     }
-                    catch (FormatException) {
-                        throw new Exception("Face incorrect format");
+                    catch (FormatException exception) {
+                        throw new Exception("Face incorrect format" + exception.Message + words[i].ToString());
                     }
                 }
                 Face f = new Face(c, l);
@@ -190,14 +193,8 @@ namespace PLY {
         }
 
         private bool
-            GE_elem = false,
-            GE_vert = false,
-            GE_face = false,
-            GE_edge = false,
-            GE_prop = false,
-            GE_countV = false,
-            GE_countF = false,
-            GE_countE = false;
+            GE_elem, GE_vert, GE_face, GE_edge, GE_prop,
+            GE_countV, GE_countF, GE_countE;
 
         private string GE_propstr = "";
 

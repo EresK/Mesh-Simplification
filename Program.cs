@@ -5,16 +5,18 @@ using Model = PLY.Types.Model;
 
 namespace PLY {
     class Program {
-            
         static void Main(string[] args) {
-            string path = @"/home/andrey/Downloads/help/not_cube.ply";
+            string path = @"/home/andrey/Downloads/help/ascii/not_cube.ply";
                 
             PLYFormat pf3 = new PLYFormat();
+            BoundBox boundBox = new BoundBox();
             Model figure = pf3.Reader(path);
 
-            string new_path = pf3.Writer(path, figure);
+            Model simple = boundBox.Simplify(figure);
+            
+            string new_path = pf3.Writer(path, simple);
 
-            Console.WriteLine(new_path);
+            Console.WriteLine("New path = {0}", new_path);
         }
     }
 }
