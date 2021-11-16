@@ -1,35 +1,24 @@
-using System;
 using System.Collections.Generic;
 using PLY.Types;
-
 namespace PLY{
-    public class BoundBox{
+    public class BoundBox_AABB{
         public Model Simplify(Model model){
 
             double x, y, z;
-            double min = double.MaxValue;
-            double max = double.MinValue;
-            double minX = 0, minY = 0, minZ = 0;
-            double maxX = 0, maxY = 0, maxZ = 0;
-            
+            double minX = double.MaxValue, minY = double.MaxValue, minZ = double.MaxValue;
+            double maxX = double.MinValue, maxY = double.MinValue, maxZ = double.MinValue;
             for (int i = 0; i < model.Vertices.Count; ++i){
                 x = model.Vertices[i].X;
                 y = model.Vertices[i].Y;
                 z = model.Vertices[i].Z;
                 
-                if (Math.Sqrt(x * x + y * y + z * z) < min){
-                    minX = x;
-                    minY = y;
-                    minZ = z;
-                    min = Math.Sqrt(x * x + y * y + z * z);
-                }
-
-                if (Math.Sqrt(x * x + y * y + z * z) > max){
-                    maxX = x;
-                    maxY = y;
-                    maxZ = z;
-                    max = Math.Sqrt(x * x + y * y + z * z);
-                }
+                minX = x < minX ? x : minX;
+                minY = y < minY ? y : minY;
+                minZ = z < minZ ? z : minZ;
+                
+                maxX = x > maxX ? x : maxX;
+                maxY = y > maxY ? y : maxY;
+                maxZ = z > maxZ ? z : maxZ;
             }
 
             List<Face> fac = new List<Face>();
