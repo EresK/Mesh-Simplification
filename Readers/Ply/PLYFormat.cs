@@ -104,7 +104,6 @@ namespace PLY {
             try{
                 using (StreamWriter file = new StreamWriter(new_path)){
                     //write header
-                    
                     string header = "";
                     header += "ply\n";
                     header += "format ascii 1.0\n";
@@ -133,42 +132,63 @@ namespace PLY {
                         header += "property int vertex2";
                     }
                     header += "\nend_header\n";
+
                     file.Write(header);
                     string main = String.Empty;
-                    for (int i = 0; i < figure.Vertices.Count; i++) {
-                        main += figure.Vertices[i].X;
-                        main += " ";
-                        main += figure.Vertices[i].Y;
-                        main += " ";
-                        main += figure.Vertices[i].Z;
-                        if (figure.Vertices.Count - 1 != i)
-                            main += "\n";
-                    }
-                    if (figure.Edges.Count > 0 || figure.Faces.Count > 0)
-                        main += "\n";
-                    
-                    for (int i = 0; i < figure.Faces.Count; i++) {
-                        main += figure.Faces[i].Count;
-                        main += " ";
-                        for (int j = 0; j < figure.Faces[i].Count; j++) {
-                            main += figure.Faces[i].Vertices[j];
-                            if (j != figure.Faces[i].Count - 1)
-                                main += " ";
-                            else
-                                if (i != figure.Faces.Count - 1)
-                                    main += "\n";
+                    try {
+                        for (int i = 0; i < figure.Vertices.Count; i++) {
+                            main += figure.Vertices[i].X;
+                            main += " ";
+                            main += figure.Vertices[i].Y;
+                            main += " ";
+                            main += figure.Vertices[i].Z;
+                            if (figure.Vertices.Count - 1 != i)
+                                main += "\n";
                         }
                     }
+                    catch (Exception e) {
+                        Console.WriteLine("ver");
+                        throw new Exception(e.Message);
+                    }
+
+                    if (figure.Edges.Count > 0 || figure.Faces.Count > 0)
+                        main += "\n";
+
+                    try {
+                        for (int i = 0; i < figure.Faces.Count; i++) {
+                            main += figure.Faces[i].Count;
+                            main += " ";
+                            for (int j = 0; j < figure.Faces[i].Vertices.Count; j++) {
+                                main += figure.Faces[i].Vertices[j];
+                                if (j != figure.Faces[i].Vertices.Count - 1)
+                                    main += " ";
+                                else if (i != figure.Faces.Count - 1)
+                                    main += "\n";
+                            }
+                        }
+                    }
+                    catch (Exception e) {
+                        Console.WriteLine("fac");
+                        throw new Exception(e.Message);
+                    }
+                    
                     if (figure.Edges.Count > 0)
                         main += "\n";
-                    
-                    for (int i = 0; i < figure.Edges.Count; i++) {
-                        main += figure.Edges[i].Vertex1;
-                        main += " ";
-                        main += figure.Edges[i].Vertex2;
-                        if (i != figure.Edges.Count)
-                            main += "\n";
+
+                    try {
+                        for (int i = 0; i < figure.Edges.Count; i++) {
+                            main += figure.Edges[i].Vertex1;
+                            main += " ";
+                            main += figure.Edges[i].Vertex2;
+                            if (i != figure.Edges.Count)
+                                main += "\n";
+                        }
                     }
+                    catch (Exception e) {
+                        Console.WriteLine("edge");
+                        throw new Exception(e.Message);
+                    }
+
                     file.Write(main);
                     file.Close();
                 }

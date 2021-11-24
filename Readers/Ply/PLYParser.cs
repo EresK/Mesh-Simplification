@@ -127,9 +127,8 @@ namespace PLY {
                 return v;
             }
             if (type == 'f') {
-                int c = words.Length - 1;
                 List<int> l = new List<int>();
-
+               
                 int count = Convert.ToInt32(words[0]);
                 for (int i = 1; i <= count; i++) {
                     try {
@@ -139,7 +138,7 @@ namespace PLY {
                         throw new Exception("Face incorrect format" + exception.Message + words[i].ToString());
                     }
                 }
-                Face f = new Face(c, l);
+                Face f = new Face(l.Count, l);
                 return f;
             }
             if (type == 'e') {
