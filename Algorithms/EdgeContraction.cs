@@ -51,7 +51,6 @@ namespace PLY{
             List <Face> faces = model.Faces;
             Vertex<double> v1, v2;
             int v1Index, v2Index;
-            int newVertIndex;
             foreach (Edge edge in edges) {
                 if (edgeLength(model, edge) < koef * longest) {
                     v1 = model.Vertices[edge.Vertex1];
