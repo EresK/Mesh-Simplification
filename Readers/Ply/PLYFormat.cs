@@ -134,9 +134,18 @@ namespace PLY {
                     header += "\nend_header\n";
 
                     file.Write(header);
-                    string main = String.Empty;
+                    //string main = String.Empty;
                     try {
                         for (int i = 0; i < figure.Vertices.Count; i++) {
+                            file.Write(figure.Vertices[i].X);
+                            file.Write(" ");
+                            file.Write(figure.Vertices[i].Y);
+                            file.Write(" ");
+                            file.Write(figure.Vertices[i].Z);
+                            if (figure.Vertices.Count - 1 != i)
+                                file.Write("\n"); 
+                            
+                            /*
                             main += figure.Vertices[i].X;
                             main += " ";
                             main += figure.Vertices[i].Y;
@@ -144,6 +153,7 @@ namespace PLY {
                             main += figure.Vertices[i].Z;
                             if (figure.Vertices.Count - 1 != i)
                                 main += "\n";
+                            */
                         }
                     }
                     catch (Exception e) {
@@ -152,10 +162,21 @@ namespace PLY {
                     }
 
                     if (figure.Edges.Count > 0 || figure.Faces.Count > 0)
-                        main += "\n";
+                        file.Write("\n");
+                        //main += "\n";
 
                     try {
                         for (int i = 0; i < figure.Faces.Count; i++) {
+                            file.Write(figure.Faces[i].Count);
+                            file.Write(" ");
+                            for (int j = 0; j < figure.Faces[i].Vertices.Count; j++) {
+                                file.Write(figure.Faces[i].Vertices[j]);
+                                if (j != figure.Faces[i].Vertices.Count - 1)
+                                    file.Write(" ");
+                                else if (i != figure.Faces.Count - 1)
+                                    file.Write("\n");
+                            }
+                            /*
                             main += figure.Faces[i].Count;
                             main += " ";
                             for (int j = 0; j < figure.Faces[i].Vertices.Count; j++) {
@@ -165,6 +186,7 @@ namespace PLY {
                                 else if (i != figure.Faces.Count - 1)
                                     main += "\n";
                             }
+                            */
                         }
                     }
                     catch (Exception e) {
@@ -173,9 +195,19 @@ namespace PLY {
                     }
                     
                     if (figure.Edges.Count > 0)
-                        main += "\n";
+                        file.Write("\n");
+                        //main += "\n";
 
                     try {
+                        for (int i = 0; i < figure.Edges.Count; i++) {
+                            file.Write(figure.Edges[i].Vertex1);
+                            file.Write(" ");
+                            file.Write(figure.Edges[i].Vertex2);
+                            if (i != figure.Edges.Count)
+                                file.Write("\n");
+                        }
+                        
+                        /*
                         for (int i = 0; i < figure.Edges.Count; i++) {
                             main += figure.Edges[i].Vertex1;
                             main += " ";
@@ -183,13 +215,14 @@ namespace PLY {
                             if (i != figure.Edges.Count)
                                 main += "\n";
                         }
+                        */
                     }
                     catch (Exception e) {
                         Console.WriteLine("edge");
                         throw new Exception(e.Message);
                     }
 
-                    file.Write(main);
+                    //file.Write(main);
                     file.Close();
                 }
                 Console.WriteLine("+-------------------------+");
