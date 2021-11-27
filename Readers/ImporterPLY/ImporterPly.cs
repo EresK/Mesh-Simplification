@@ -12,9 +12,13 @@ namespace ImporterPLY {
         MissingError = 3
     }
     
-    public class ImportPly {
+    public class ImporterPly {
         private string format;
         private List<Element> elements;
+
+        public ImporterPly() {
+            elements = new List<Element>();
+        }
 
         public void Import(string filename) {
             if (filename == null)
