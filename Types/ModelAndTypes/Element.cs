@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 
-namespace ImporterPLY {
+namespace ModelAndTypes {
     public class Element {
         private string name;
         private int count;
@@ -14,20 +14,23 @@ namespace ImporterPLY {
             properties = new List<Property>();
         }
 
-        public string GetName() {
-            return name;
-        }
+        public string GetName { get { return name; } }
 
-        public int GetCount() {
-            return count;
+        public int GetCount { get { return count; } }
+        
+        public List<Property> GetProperties { get{ return properties; } }
+
+        public int GetPropertyIndex(string propertyName) {
+            for (int i = 0; i < properties.Count; i++) {
+                if (properties[i].GetName.Equals(propertyName))
+                    return i;
+            }
+
+            return -1;
         }
 
         public void AddProperty(Property property) {
             properties.Add(property);
-        }
-
-        public List<Property> GetProperties() {
-            return properties;
         }
     }
 }

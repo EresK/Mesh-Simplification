@@ -1,6 +1,6 @@
 // Original idea by https://github.com/kovacsv/Online3DViewer
 
-namespace ImporterPLY {
+namespace ModelAndTypes {
     public class Property {
         private string name;
         private bool isScalar;
@@ -20,20 +20,12 @@ namespace ImporterPLY {
             this.elemType = elemType;
         }
 
-        public string GetName() {
-            return name;
-        }
+        public string GetName { get { return name; } }
 
-        public bool IsScalar() {
-            return isScalar;
-        }
+        public bool IsScalar { get { return isScalar; } }
 
-        public string GetCountType() {
-            return countType;
-        }
+        public string GetCountType { get { return countType; } }
 
-        public string GetElemType() {
-            return elemType;
-        }
+        public string GetElemType { get { return elemType; } }
     }
 }
