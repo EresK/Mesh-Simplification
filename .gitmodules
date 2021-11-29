@@ -1,0 +1,3 @@
+[submodule "SimplificationMeshes"]
+	path = SimplificationMeshes
+	url = https://github.com/Ingvar-fesh/SimplificationMeshes.git
