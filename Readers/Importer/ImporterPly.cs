@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Text;
 using System.Threading;
 
 using ModelAndTypes;
@@ -18,14 +19,14 @@ namespace Importer {
             CultureInfo info = CultureInfo.CurrentCulture;
             
             try {
-                StreamReader reader = new StreamReader(filename, System.Text.Encoding.ASCII);
+                Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+                
+                StreamReader reader = new StreamReader(filename, Encoding.ASCII);
 
                 List<string> header = ReadHeader(reader);
 
                 List<Element> elems = ParseHeader(header);
-                
-                Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-                
+
                 if (format.Equals("ascii")) {
                     model = ReadAscii(reader, elems);
                 }
@@ -33,6 +34,8 @@ namespace Importer {
                     /* ReadBinary in development */
                 }
 
+                reader.Close();
+                
                 Thread.CurrentThread.CurrentCulture = info;
             }
             catch (Exception e) {
