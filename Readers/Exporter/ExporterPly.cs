@@ -1,26 +1,20 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Threading;
 using ModelAndTypes;
 
 namespace Exporter {
     public class ExporterPly {
-        /*private int countVertex;
-        private bool hasNormal;
-        private int countFace;
-        private int countEdge;
-
-        public ExporterPly() {
-            countVertex = 0;
-            hasNormal = false;
-            countFace = 0;
-            countEdge = 0;
-        }*/
-        
         public void Export(string filename, Model model, bool isBinary) {
+            CultureInfo info = CultureInfo.CurrentCulture;
+            
             try {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+                
                 if (isBinary) {
-                    /* Export binary in development */
+                    /* WriteBinary in development */
                 }
                 else {
                     FileStream fs = new FileStream(filename, FileMode.Create);
@@ -32,6 +26,8 @@ namespace Exporter {
                     writer.Close();
                     fs.Close();
                 }
+                
+                Thread.CurrentThread.CurrentCulture = info;
             }
             catch (Exception e) {
                 Console.Error.WriteLine("Error: " + e.Message);
@@ -70,9 +66,9 @@ namespace Exporter {
             writer.WriteLine("element face {0}\nproperty list int int vertex_index", countFace);
             
             if (countEdge > 0) {
-                writer.WriteLine("element edge " + countEdge + "\n" +
+                writer.WriteLine("element edge {0}" +
                                  "property int vertex1\n" +
-                                 "property int vertex2");
+                                 "property int vertex2", countEdge);
             }
             
             writer.WriteLine("end_header");
@@ -102,6 +98,7 @@ namespace Exporter {
                     foreach (int i in f.GetVertices) {
                         writer.Write(i + " ");
                     }
+                    writer.WriteLine();
                 }
             }
 
