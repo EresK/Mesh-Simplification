@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 
-namespace ModelAndTypes {
+namespace Types {
     public class Element {
         private string name;
         private int count;
@@ -14,15 +14,15 @@ namespace ModelAndTypes {
             properties = new List<Property>();
         }
 
-        public string GetName { get { return name; } }
+        public string Name { get { return name; } }
 
-        public int GetCount { get { return count; } }
+        public int Count { get { return count; } }
         
-        public List<Property> GetProperties { get{ return properties; } }
+        public List<Property> Properties { get{ return properties; } }
 
-        public int GetPropertyIndex(string propertyName) {
+        public int PropertyIndex(string propertyName) {
             for (int i = 0; i < properties.Count; i++) {
-                if (properties[i].GetName.Equals(propertyName))
+                if (properties[i].Name.Equals(propertyName))
                     return i;
             }
 

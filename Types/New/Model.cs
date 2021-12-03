@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace ModelAndTypes {
+namespace Types {
     public class Model {
         readonly List<Mesh> meshes;
 
@@ -12,6 +12,6 @@ namespace ModelAndTypes {
             meshes.Add(mesh);
         }
 
-        public List<Mesh> GetMeshes { get { return meshes; } }
+        public List<Mesh> Meshes { get { return meshes; } }
     }
 }

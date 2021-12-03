@@ -1,4 +1,4 @@
-namespace ModelAndTypes {
+namespace Types {
     public class Edge {
         private int vertex1;
         private int vertex2;
@@ -8,8 +8,8 @@ namespace ModelAndTypes {
             this.vertex2 = vertex2;
         }
         
-        public int GetVertex1 { get { return vertex1; } }
+        public int Vertex1 { get { return vertex1; } }
         
-        public int GetVertex2 { get { return vertex2; } }
+        public int Vertex2 { get { return vertex2; } }
     }
 }

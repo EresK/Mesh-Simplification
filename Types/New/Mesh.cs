@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace ModelAndTypes {
+namespace Types {
     public class Mesh {
         readonly List<Vertex> vertices;
         readonly List<Vertex> normals;
@@ -14,13 +14,20 @@ namespace ModelAndTypes {
             edges = new List<Edge>();
         }
 
-        public List<Vertex> GetVertices { get { return vertices; } }
+        public Mesh(List<Vertex> vertices, List<Vertex> normals, List<Face> faces, List<Edge> edges) {
+            this.vertices = vertices;
+            this.normals = normals;
+            this.faces = faces;
+            this.edges = edges;
+        }
+
+        public List<Vertex> Vertices { get { return vertices; } }
         
-        public List<Vertex> GetNormals { get { return normals; } }
+        public List<Vertex> Normals { get { return normals; } }
         
-        public List<Face> GetFaces { get { return faces; } }
+        public List<Face> Faces { get { return faces; } }
         
-        public List<Edge> GetEdges { get { return edges; } }
+        public List<Edge> Edges { get { return edges; } }
 
         public void AddVertex(Vertex vertex) {
             vertices.Add(vertex);

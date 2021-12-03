@@ -3,7 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading;
-using ModelAndTypes;
+using Types;
 
 namespace Exporter {
     public class ExporterPly {
@@ -40,14 +40,14 @@ namespace Exporter {
             int countFace = 0;
             int countEdge = 0;
             
-            for (int i = 0; i < model.GetMeshes.Count; i++) {
-                countVertex += model.GetMeshes[i].GetVertices.Count;
+            for (int i = 0; i < model.Meshes.Count; i++) {
+                countVertex += model.Meshes[i].Vertices.Count;
                 
-                if (model.GetMeshes[i].GetNormals.Count > 0)
+                if (model.Meshes[i].Normals.Count > 0)
                     hasNormal = true;
                 
-                countFace += model.GetMeshes[i].GetFaces.Count;
-                countEdge += model.GetMeshes[i].GetEdges.Count;
+                countFace += model.Meshes[i].Faces.Count;
+                countEdge += model.Meshes[i].Edges.Count;
             }
             
             writer.WriteLine("ply\nformat {0} 1.0", type);
@@ -76,35 +76,35 @@ namespace Exporter {
         
         private void WriteAscii(StreamWriter writer, Model model) {
 
-            foreach (Mesh m in model.GetMeshes) {
-                bool hasNormalCurrent = m.GetNormals.Count > 0;
+            foreach (Mesh m in model.Meshes) {
+                bool hasNormalCurrent = m.Normals.Count > 0;
 
-                for (int i = 0; i < m.GetVertices.Count; i++) {
+                for (int i = 0; i < m.Vertices.Count; i++) {
                     if (hasNormalCurrent) {
                         writer.WriteLine("{0} {1} {2} {3} {4} {5}",
-                            m.GetVertices[i].GetX, m.GetVertices[i].GetY, m.GetVertices[i].GetZ,
-                            m.GetNormals[i].GetX, m.GetNormals[i].GetY, m.GetNormals[i].GetZ);
+                            m.Vertices[i].X, m.Vertices[i].Y, m.Vertices[i].Z,
+                            m.Normals[i].X, m.Normals[i].Y, m.Normals[i].Z);
                     }
                     else {
                         writer.WriteLine("{0} {1} {2} nan nan nan",
-                            m.GetVertices[i].GetX, m.GetVertices[i].GetY, m.GetVertices[i].GetZ);
+                            m.Vertices[i].X, m.Vertices[i].Y, m.Vertices[i].Z);
                     }
                 }
             }
 
-            foreach (Mesh m in model.GetMeshes) {
-                foreach (Face f in m.GetFaces) {
-                    writer.Write(f.GetCount + " ");
-                    foreach (int i in f.GetVertices) {
+            foreach (Mesh m in model.Meshes) {
+                foreach (Face f in m.Faces) {
+                    writer.Write(f.Count + " ");
+                    foreach (int i in f.Vertices) {
                         writer.Write(i + " ");
                     }
                     writer.WriteLine();
                 }
             }
 
-            foreach (Mesh m in model.GetMeshes) {
-                foreach (Edge e in m.GetEdges) {
-                    writer.WriteLine("{0} {1}", e.GetVertex1, e.GetVertex2);
+            foreach (Mesh m in model.Meshes) {
+                foreach (Edge e in m.Edges) {
+                    writer.WriteLine("{0} {1}", e.Vertex1, e.Vertex2);
                 }
             }
         }

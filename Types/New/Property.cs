@@ -1,6 +1,6 @@
 // Original idea by https://github.com/kovacsv/Online3DViewer
 
-namespace ModelAndTypes {
+namespace Types {
     public class Property {
         private string name;
         private bool isScalar;
@@ -20,12 +20,12 @@ namespace ModelAndTypes {
             this.elemType = elemType;
         }
 
-        public string GetName { get { return name; } }
+        public string Name { get { return name; } }
 
         public bool IsScalar { get { return isScalar; } }
 
-        public string GetCountType { get { return countType; } }
+        public string CountType { get { return countType; } }
 
-        public string GetElemType { get { return elemType; } }
+        public string ElemType { get { return elemType; } }
     }
 }

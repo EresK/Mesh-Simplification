@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace ModelAndTypes {
+namespace Types {
     public class Face {
         private int count;
         readonly List<int> vertices;
@@ -10,8 +10,8 @@ namespace ModelAndTypes {
             this.vertices = vertices;
         }
         
-        public int GetCount { get { return count; } }
+        public int Count { get { return count; } }
         
-        public List<int> GetVertices { get { return vertices; } }
+        public List<int> Vertices { get { return vertices; } }
     }
 }

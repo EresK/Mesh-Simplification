@@ -1,11 +1,12 @@
-﻿using System;
+﻿// Original idea by https://github.com/kovacsv/Online3DViewer
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading;
-
-using ModelAndTypes;
+using Types;
 
 namespace Importer {
 
@@ -81,11 +82,11 @@ namespace Importer {
                     
                     case "property":
                         if (words.Length >= 5 && words[1].Equals("list")) {
-                            elements[elements.Count - 1].GetProperties.
+                            elements[elements.Count - 1].Properties.
                                 Add(new Property(words[4], false, words[2], words[3]));
                         }
                         else if (words.Length >= 3) {
-                            elements[elements.Count - 1].GetProperties.
+                            elements[elements.Count - 1].Properties.
                                 Add(new Property(words[2], false, words[1]));
                         }
                         else
@@ -119,25 +120,25 @@ namespace Importer {
             string[] words;
             
             for (int i = 0; i < elems.Count; i++) {
-                if (elems[i].GetName.Equals("vertex")) {
-                    int x = elems[i].GetPropertyIndex("x");
-                    int y = elems[i].GetPropertyIndex("y");
-                    int z = elems[i].GetPropertyIndex("z");
+                if (elems[i].Name.Equals("vertex")) {
+                    int x = elems[i].PropertyIndex("x");
+                    int y = elems[i].PropertyIndex("y");
+                    int z = elems[i].PropertyIndex("z");
 
                     if (x == -1 || y == -1 || z == -1)
                         throw new Exception("Missing x, y, or z in vertex");
                     
-                    int nx = elems[i].GetPropertyIndex("nx");
-                    int ny = elems[i].GetPropertyIndex("ny");
-                    int nz = elems[i].GetPropertyIndex("nz");
+                    int nx = elems[i].PropertyIndex("nx");
+                    int ny = elems[i].PropertyIndex("ny");
+                    int nz = elems[i].PropertyIndex("nz");
                     
                     bool hasNormals = !(nx == -1 || ny == -1 || nz == -1);
 
-                    for (int j = 0; j < elems[i].GetCount; j++) {
+                    for (int j = 0; j < elems[i].Count; j++) {
                         line = reader.ReadLine();
                         words = line.Split(" ");
 
-                        if (words.Length >= elems[i].GetProperties.Count) {
+                        if (words.Length >= elems[i].Properties.Count) {
                             double coordinateX = Convert.ToDouble(words[x]);
                             double coordinateY = Convert.ToDouble(words[y]);
                             double coordinateZ = Convert.ToDouble(words[z]);
@@ -156,12 +157,12 @@ namespace Importer {
                         }
                     }
                 }
-                else if (elems[i].GetName.Equals("face")) {
-                    for (int j = 0; j < elems[i].GetCount; j++) {
+                else if (elems[i].Name.Equals("face")) {
+                    for (int j = 0; j < elems[i].Count; j++) {
                         line = reader.ReadLine();
                         words = line.Split(" ");
 
-                        if (words.Length >= elems[i].GetProperties.Count && words.Length >= 1) {
+                        if (words.Length >= elems[i].Properties.Count && words.Length >= 1) {
                             List<int> vertices = new List<int>();
                             int count = Convert.ToInt32(words[0]);
 
@@ -176,12 +177,12 @@ namespace Importer {
                         }
                     }
                 }
-                else if (elems[i].GetName.Equals("edge")) {
-                    for (int j = 0; j < elems[i].GetCount; j++) {
+                else if (elems[i].Name.Equals("edge")) {
+                    for (int j = 0; j < elems[i].Count; j++) {
                         line = reader.ReadLine();
                         words = line.Split(" ");
 
-                        if (words.Length >= elems[i].GetProperties.Count && words.Length >= 2) {
+                        if (words.Length >= elems[i].Properties.Count && words.Length >= 2) {
                             int vertex1 = Convert.ToInt32(words[0]);
                             int vertex2 = Convert.ToInt32(words[1]);
                             
@@ -190,7 +191,7 @@ namespace Importer {
                     }
                 }
                 else {
-                    for (int j = 0; j < elems[i].GetCount; j++) {
+                    for (int j = 0; j < elems[i].Count; j++) {
                         reader.ReadLine();
                     }
                 }
