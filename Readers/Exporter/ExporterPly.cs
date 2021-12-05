@@ -7,9 +7,10 @@ using Types;
 
 namespace Exporter {
     public class ExporterPly {
+        private bool hasNormal;
         public void Export(string filename, Model model, bool isBinary) {
             CultureInfo info = CultureInfo.CurrentCulture;
-            
+
             try {
                 Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
                 
@@ -36,7 +37,7 @@ namespace Exporter {
 
         private void WriteHeader(StreamWriter writer, Model model, string type) { 
             int countVertex = 0;
-            bool hasNormal = false;
+            hasNormal = false;
             int countFace = 0;
             int countEdge = 0;
             
@@ -77,16 +78,20 @@ namespace Exporter {
         private void WriteAscii(StreamWriter writer, Model model) {
 
             foreach (Mesh m in model.Meshes) {
-                bool hasNormalCurrent = m.Normals.Count > 0;
-
                 for (int i = 0; i < m.Vertices.Count; i++) {
-                    if (hasNormalCurrent) {
-                        writer.WriteLine("{0} {1} {2} {3} {4} {5}",
-                            m.Vertices[i].X, m.Vertices[i].Y, m.Vertices[i].Z,
-                            m.Normals[i].X, m.Normals[i].Y, m.Normals[i].Z);
+                    if (hasNormal) {
+                        if (m.Normals.Count > 0) {
+                            writer.WriteLine("{0} {1} {2} {3} {4} {5}",
+                                m.Vertices[i].X, m.Vertices[i].Y, m.Vertices[i].Z,
+                                m.Normals[i].X, m.Normals[i].Y, m.Normals[i].Z);
+                        }
+                        else {
+                            writer.WriteLine("{0} {1} {2} nan nan nan",
+                                m.Vertices[i].X, m.Vertices[i].Y, m.Vertices[i].Z);
+                        }
                     }
                     else {
-                        writer.WriteLine("{0} {1} {2} nan nan nan",
+                        writer.WriteLine("{0} {1} {2}",
                             m.Vertices[i].X, m.Vertices[i].Y, m.Vertices[i].Z);
                     }
                 }
