@@ -8,7 +8,12 @@ using Types;
 namespace Exporter {
     public class ExporterPly {
         private bool hasNormal;
-        public void Export(string filename, Model model, bool isBinary) {
+        
+        public void Export(string filename, Model model, bool isBinary, bool isNewDirectory) {
+            if (!isNewDirectory) {
+                filename = filename.Insert(filename.LastIndexOf(".", StringComparison.Ordinal), "_simplified");
+            }
+            
             CultureInfo info = CultureInfo.CurrentCulture;
 
             try {
