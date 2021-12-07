@@ -6,9 +6,9 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading;
-using Types;
+using MeshSimplification.Types;
 
-namespace Importer {
+namespace MeshSimplification.Readers.Importer {
 
     public class ImporterPly {
         private string format;
@@ -66,7 +66,7 @@ namespace Importer {
             List<Element> elements = new List<Element>();
 
             for (int i = 0; i < header.Count - 1; i++) {
-                string[] words = header[i].Split(" ");
+                string[] words = header[i].Split(' ');
                 
                 if (words.Length < 1)
                     continue;
@@ -136,7 +136,7 @@ namespace Importer {
 
                     for (int j = 0; j < elems[i].Count; j++) {
                         line = reader.ReadLine();
-                        words = line.Split(" ");
+                        words = line.Split(' ');
 
                         if (words.Length >= elems[i].Properties.Count) {
                             double coordinateX = Convert.ToDouble(words[x]);
@@ -160,7 +160,7 @@ namespace Importer {
                 else if (elems[i].Name.Equals("face")) {
                     for (int j = 0; j < elems[i].Count; j++) {
                         line = reader.ReadLine();
-                        words = line.Split(" ");
+                        words = line.Split(' ');
 
                         if (words.Length >= elems[i].Properties.Count && words.Length >= 1) {
                             List<int> vertices = new List<int>();
@@ -180,7 +180,7 @@ namespace Importer {
                 else if (elems[i].Name.Equals("edge")) {
                     for (int j = 0; j < elems[i].Count; j++) {
                         line = reader.ReadLine();
-                        words = line.Split(" ");
+                        words = line.Split(' ');
 
                         if (words.Length >= elems[i].Properties.Count && words.Length >= 2) {
                             int vertex1 = Convert.ToInt32(words[0]);

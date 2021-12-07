@@ -3,16 +3,15 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading;
-using Types;
+using MeshSimplification.Types;
 
-namespace Exporter {
+namespace MeshSimplification.Readers.Exporter {
     public class ExporterPly {
         private bool hasNormal;
         
         public void Export(string filename, Model model, bool isBinary, bool isNewDirectory) {
-            if (!isNewDirectory) {
+            if (!isNewDirectory)
                 filename = filename.Insert(filename.LastIndexOf(".", StringComparison.Ordinal), "_simplified");
-            }
             
             CultureInfo info = CultureInfo.CurrentCulture;
 
