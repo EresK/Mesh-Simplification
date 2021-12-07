@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 
-namespace Types {
+namespace MeshSimplification.Types {
     public class Element {
         private string name;
         private int count;

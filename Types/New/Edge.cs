@@ -1,4 +1,4 @@
-namespace Types {
+namespace MeshSimplification.Types {
     public class Edge {
         private int vertex1;
         private int vertex2;

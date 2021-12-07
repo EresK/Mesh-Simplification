@@ -1,6 +1,6 @@
 // Original idea by https://github.com/kovacsv/Online3DViewer
 
-namespace Types {
+namespace MeshSimplification.Types {
     public class Property {
         private string name;
         private bool isScalar;

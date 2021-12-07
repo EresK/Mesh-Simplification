@@ -1,4 +1,4 @@
-namespace Types {
+namespace MeshSimplification.Types {
     public class Vertex {
         private double x;
         private double y;

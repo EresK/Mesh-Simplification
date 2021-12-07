@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Types {
+namespace MeshSimplification.Types {
     public class Model {
         readonly List<Mesh> meshes;
 

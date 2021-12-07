@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace Types {
+namespace MeshSimplification.Types {
     public class Mesh {
-        readonly List<Vertex> vertices;
+        List<Vertex> vertices;
         readonly List<Vertex> normals;
         readonly List<Face> faces;
         readonly List<Edge> edges;
@@ -21,8 +21,10 @@ namespace Types {
             this.edges = edges;
         }
 
-        public List<Vertex> Vertices { get { return vertices; } }
-        
+        public List<Vertex> Vertices {
+            get { return vertices; }
+        }
+
         public List<Vertex> Normals { get { return normals; } }
         
         public List<Face> Faces { get { return faces; } }

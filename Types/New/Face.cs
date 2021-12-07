@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Types {
+namespace MeshSimplification.Types {
     public class Face {
         private int count;
         readonly List<int> vertices;
@@ -9,7 +9,7 @@ namespace Types {
             this.count = count;
             this.vertices = vertices;
         }
-        
+
         public int Count { get { return count; } }
         
         public List<int> Vertices { get { return vertices; } }
