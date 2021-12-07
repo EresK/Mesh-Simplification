@@ -2,25 +2,24 @@
 
 using System;
 using System.Collections.Generic;
-using Types;
+using MeshSimplification.Types;
 
-namespace Algorithms {
+namespace MeshSimplification.Algorithms {
     public class EdgeContraction {
-        public Model Simplify(Model model, double coeff) {
+        public Model Simplify(Model model, double ratio) {
             Model modelNew = new Model();
 
-            foreach (Mesh m in model.Meshes) {
-                modelNew.AddMesh(SimplifyMesh(m, coeff));
-            }
+            foreach (Mesh mesh in model.Meshes)
+                modelNew.AddMesh(SimplifyMesh(mesh, ratio));
 
             return modelNew;
         }
 
-        private Mesh SimplifyMesh(Mesh mesh, double coeff) {
+        private Mesh SimplifyMesh(Mesh mesh, double ratio) {
             List<Edge> edges = GetEdges(mesh);
             
             double longest = FindLongestEdge(mesh, edges);
-            Mesh deletedEdges = DeleteEdge(mesh, edges, coeff, longest);
+            Mesh deletedEdges = DeleteEdge(mesh, edges, ratio, longest);
             
             return deletedEdges;
         }
@@ -39,11 +38,11 @@ namespace Algorithms {
             
             return answer;
         }
-        
+
         private static bool IfEdge(Edge edge, List<Edge> edges) {
             return edges.Exists(x =>
-                ((x.Vertex1 == edge.Vertex1 && x.Vertex2 == edge.Vertex2) ||
-                 (x.Vertex1 == edge.Vertex2 && x.Vertex2 == edge.Vertex1)));
+                x.Vertex1 == edge.Vertex1 && x.Vertex2 == edge.Vertex2 ||
+                 x.Vertex1 == edge.Vertex2 && x.Vertex2 == edge.Vertex1);
         }
         
         private static double FindLongestEdge(Mesh mesh, List<Edge> edges) {
@@ -71,11 +70,10 @@ namespace Algorithms {
         }
         
         private static bool EdgeInFace(Edge edge, Face face) {
-            return face.Vertices.Exists(x => x == edge.Vertex1) &&
-                   face.Vertices.Exists(x => x == edge.Vertex2);
+            return face.Vertices.Exists(x => x == edge.Vertex1 && x == edge.Vertex2);
         }
         
-        private static Mesh DeleteEdge(Mesh mesh, List<Edge> edges, double coeff, double longest) {
+        private static Mesh DeleteEdge(Mesh mesh, List<Edge> edges, double ratio, double longest) {
             List <Vertex> vertices = mesh.Vertices;
             List <Face> faces = mesh.Faces;
             int before = mesh.Faces.Count;
@@ -84,16 +82,19 @@ namespace Algorithms {
             List<int> simplified = new List<int>();
             
             foreach (Edge edge in edges) {
-                if (EdgeLength(mesh, edge) < coeff * longest) {
+                if (EdgeLength(mesh, edge) < ratio * longest) {
                     v1Index = edge.Vertex1;
                     v2Index = edge.Vertex2;
                     
                     if (simplified.Exists(x => x == v1Index || x == v2Index))
                         continue;
                     
+                    simplified.Add(v1Index);
+                    simplified.Add(v2Index);
+                    
                     Vertex v1 = vertices[v1Index];
                     Vertex v2 = vertices[v2Index];
-
+                    
                     //vertices.Remove(v1);
                     //vertices.Remove(v2);
                     
@@ -103,8 +104,6 @@ namespace Algorithms {
                     vertices[v1Index] = newVert;
                     vertices[v2Index] = newVert;
 
-                    simplified.Add(v1Index);
-                    simplified.Add(v2Index);
                     faces.RemoveAll(x => EdgeInFace(edge, x));
                 }
             }
@@ -112,7 +111,7 @@ namespace Algorithms {
             Console.WriteLine("Stat:");
             Console.WriteLine("faces before: {0}", before);
             Console.WriteLine("faces after: {0}", faces.Count);
-            Console.WriteLine("percentage of faces remaining: {0}", (double)faces.Count/before);
+            Console.WriteLine("percentage of faces remaining: {0:F5}", (double)faces.Count/before);
 
             return new Mesh(vertices, new List<Vertex>(), faces, new List<Edge>());
         }

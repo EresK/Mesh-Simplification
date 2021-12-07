@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Numerics;
-using Types;
+using MeshSimplification.Types;
 
-namespace Algorithms {
+namespace MeshSimplification.Algorithms {
     public class BoundBoxOOB {
         public Model Simplify(Model model) {
             Model modelNew = new Model();
