@@ -77,14 +77,15 @@ namespace MeshSimplification.Algorithms{
                     
                     Vertex v1 = vertices[v1Index];
                     Vertex v2 = vertices[v2Index];
-                    Vertex v3 = vertices[v2Index];
+                    Vertex v3 = vertices[v3Index];
                     
                     Vertex newVert = new Vertex((v1.X + v2.X + v3.X) / 3,
                         (v1.Y + v2.Y + v3.Y) / 3, (v1.Z + v2.Z + v3.Z) / 3);
-
-                    vertices[v1Index] = newVert;
-                    vertices[v2Index] = newVert;
-                    vertices[v3Index] = newVert;
+                    
+                    for (int iter = 0; iter < vertices.Count; iter++)
+                        if (vertices[iter].Equals(v1) || vertices[iter].Equals(v2) ||
+                            vertices[iter].Equals(v3))
+                            vertices[iter] = newVert; 
                 }
                 else
                     answer.Add(face);
