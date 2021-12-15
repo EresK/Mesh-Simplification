@@ -19,6 +19,8 @@ namespace MeshSimplification.Algorithms {
             Model modelNew = new Model();
 
             foreach (Mesh mesh in model.Meshes) {
+                CheckThisMesh(mesh);
+                
                 Mesh simple = new Mesh(new List<Vertex>(mesh.Vertices), new List<Vertex>(mesh.Normals),
                     new List<Face>(mesh.Faces), new List<Edge>(mesh.Edges));
                 modelNew.AddMesh(SimplifyMesh(simple));
@@ -27,8 +29,22 @@ namespace MeshSimplification.Algorithms {
             return modelNew;
         }
 
+        private static void CheckThisMesh(Mesh mesh){
+            int count = 0;
+            for (int i = 0; i < mesh.Vertices.Count; i++) 
+                for (int j = i + 1; j < mesh.Vertices.Count; j++)
+                    if (mesh.Vertices[i].X.Equals(mesh.Vertices[j].X) && mesh.Vertices[i].Y.Equals(mesh.Vertices[j].Y) && 
+                        mesh.Vertices[i].Z.Equals(mesh.Vertices[j].Z)) {
+                        Console.WriteLine("What the fuck");
+                        count += 1;
+                }
+
+            Console.WriteLine("unique vertices: {0}", mesh.Vertices.Count - count);
+        }
+
         private static Mesh SimplifyMesh(Mesh mesh){
-            double cosValue = Math.Sqrt(3) / 2;
+            //double cosValue = Math.Sqrt(3) / 2;
+            double cosValue = 0.5;
             List<Edge> edges = GetEdges(mesh);
             Mesh meshNew = BasedAngle(mesh, edges, cosValue);
             return meshNew;
@@ -80,7 +96,7 @@ namespace MeshSimplification.Algorithms {
                 Vector3 normal2 = GetNormal(mesh, facesFounded[1]);
 
                 double angle = CountAngle(normal1, normal2);
-                if (angle > cosValue) {
+                if (angle < cosValue) {
                     v1Index = edge.Vertex1;
                     v2Index = edge.Vertex2;
 
