@@ -2,11 +2,112 @@
 
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using MeshSimplification.Types;
 
+/*
+ * this algorithm chooses which edge should be
+ * deleted based on its length or on an angle between
+ * two faces which contains this edge
+ */
+
 namespace MeshSimplification.Algorithms {
-    public class EdgeContraction {
-        public Model Simplify(Model model, double ratio) {
+    public class EdgeContraction{
+
+        //code based on angles    ↓↓↓
+        public Model Simplify(Model model){
+            Model modelNew = new Model();
+
+            foreach (Mesh mesh in model.Meshes) {
+                Mesh simple = new Mesh(new List<Vertex>(mesh.Vertices), new List<Vertex>(mesh.Normals),
+                    new List<Face>(mesh.Faces), new List<Edge>(mesh.Edges));
+                modelNew.AddMesh(SimplifyMesh(simple));
+            }
+
+            return modelNew;
+        }
+
+        private static Mesh SimplifyMesh(Mesh mesh){
+            double cosValue = Math.Sqrt(3) / 2;
+            List<Edge> edges = GetEdges(mesh);
+            Mesh meshNew = BasedAngle(mesh, edges, cosValue);
+            return meshNew;
+        }
+
+        private static double CountAngle(Vector3 normal1, Vector3 normal2){
+            double scalar;
+            double length;
+
+            scalar = Math.Abs(normal1.X * normal2.X + normal1.Y * normal2.Y + normal1.Z * normal2.Z);
+            length = Math.Sqrt(normal1.X * normal1.X + normal1.Y * normal1.Y + normal1.Z * normal1.Z);
+            length *= Math.Sqrt(normal2.X * normal2.X + normal2.Y * normal2.Y + normal2.Z * normal2.Z);
+            return scalar / length;
+        }
+
+        private static Vector3 GetNormal(Mesh mesh, Face face){
+            Vector3 vector3 = new Vector3();
+            
+            vector3.X = (float) ((mesh.Vertices[face.Vertices[1]].Y - mesh.Vertices[face.Vertices[0]].Y) * 
+                                 (mesh.Vertices[face.Vertices[2]].Z - mesh.Vertices[face.Vertices[0]].Z));
+            vector3.X -= (float) ((mesh.Vertices[face.Vertices[1]].Z - mesh.Vertices[face.Vertices[0]].Z) * 
+                                  (mesh.Vertices[face.Vertices[2]].Y - mesh.Vertices[face.Vertices[0]].Y));
+            
+            vector3.Y = (float) ((mesh.Vertices[face.Vertices[1]].X - mesh.Vertices[face.Vertices[0]].X) * 
+                                 (mesh.Vertices[face.Vertices[2]].Z - mesh.Vertices[face.Vertices[0]].Z));
+            vector3.Y -= (float) ((mesh.Vertices[face.Vertices[1]].Z - mesh.Vertices[face.Vertices[0]].Z) *
+                                  (mesh.Vertices[face.Vertices[2]].X - mesh.Vertices[face.Vertices[0]].X));
+            
+            vector3.Z = (float) ((mesh.Vertices[face.Vertices[1]].X - mesh.Vertices[face.Vertices[0]].X) * 
+                                 (mesh.Vertices[face.Vertices[2]].Y - mesh.Vertices[face.Vertices[0]].Y));
+            vector3.Z -= (float) ((mesh.Vertices[face.Vertices[1]].Y - mesh.Vertices[face.Vertices[0]].Y) *
+                                  (mesh.Vertices[face.Vertices[2]].X - mesh.Vertices[face.Vertices[0]].X));
+            
+            return vector3;
+        }
+        
+        private static Mesh BasedAngle(Mesh mesh, List<Edge> edges, double cosValue){
+            List <Vertex> vertices = mesh.Vertices;
+            List <Face> faces = mesh.Faces;
+            int before = mesh.Faces.Count;
+            int v1Index, v2Index;
+            
+            foreach (Edge edge in edges) {
+                List<Face> facesFounded = faces.FindAll(face => EdgeInFace(edge, face));
+                if (facesFounded.Count != 2)
+                    continue;
+                
+                Vector3 normal1 = GetNormal(mesh, facesFounded[0]);
+                Vector3 normal2 = GetNormal(mesh, facesFounded[1]);
+
+                double angle = CountAngle(normal1, normal2);
+                if (angle > cosValue) {
+                    v1Index = edge.Vertex1;
+                    v2Index = edge.Vertex2;
+
+                    Vertex v1 = vertices[v1Index];
+                    Vertex v2 = vertices[v2Index];
+                    
+                    Vertex newVert = new Vertex((v1.X + v2.X) / 2,
+                        (v1.Y + v2.Y) / 2, (v1.Z + v2.Z) / 2);
+
+                    for (int iter = 0; iter < vertices.Count; iter++)
+                        if (vertices[iter].Equals(v1) || vertices[iter].Equals(v2))
+                            vertices[iter] = newVert;
+                    
+                    faces.RemoveAll(x => EdgeInFace(edge, x));                    
+                }
+            }
+            
+            Console.WriteLine("Stat:");
+            Console.WriteLine("faces before: {0}", before);
+            Console.WriteLine("faces after: {0}", faces.Count);
+            Console.WriteLine("percentage of faces remaining: {0:F5}", (double)faces.Count/before);
+
+            return new Mesh(vertices, new List<Vertex>(), faces, new List<Edge>());
+        }
+
+        //code based on ratio    ↓↓↓
+        public Model Simplify(Model model, double ratio){
             Model modelNew = new Model();
 
             foreach (Mesh mesh in model.Meshes) {
@@ -20,10 +121,9 @@ namespace MeshSimplification.Algorithms {
              * первоначальную модель т.е. он имеет внутри доступ к сеткам начальной модели
              */
             //return model;
-            
+
             return modelNew;
         }
-
         private Mesh SimplifyMesh(Mesh mesh, double ratio) {
             List<Edge> edges = GetEdges(mesh);
             
