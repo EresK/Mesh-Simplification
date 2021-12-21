@@ -1,33 +1,38 @@
 ﻿using System.Collections.Generic;
 using Types;
 using System;
+using System.Linq;
 
 namespace Algorithms
 {
     public class MyAlgorithm
     {
+        private List<int>[] inc;
+
         private List<Face> fac = new List<Face>();
         public Model Simplify(Model model, double coeff)
         {
-            return DelVertexInCircle(model, coeff);
+            return CircleAlgorithm(model, coeff);
         }
 
         private List<int>[] Incendent(int cnt, List<Face> faces)
         {
-            
             List<int>[] inc = new List<int>[cnt];
 
-            List<int> tmp = new List<int>();
+            for (int i = 0; i < inc.Length; i++)
+                inc[i] = new List<int>();
+
+            List<int> tmp;
 
             for (int i = 0; i < faces.Count; i++)
             {
                 tmp = faces[i].Vertices;
-                if(inc[tmp[0]] == null) inc[tmp[0]] = new List<int>();
-                inc[tmp[0]].Add(tmp[1]); inc[tmp[0]].Add(tmp[2]);
-                if (inc[tmp[1]] == null) inc[tmp[1]] = new List<int>();
-                inc[tmp[1]].Add(tmp[0]); inc[tmp[1]].Add(tmp[2]);
-                if (inc[tmp[2]] == null) inc[tmp[2]] = new List<int>();
-                inc[tmp[2]].Add(tmp[0]); inc[tmp[2]].Add(tmp[1]);
+                for (int j = 0; j < tmp.Count; j++)
+                {
+                    inc[tmp[j]].AddRange(tmp);
+                    inc[tmp[j]].Remove(tmp[j]);
+                    inc[tmp[j]] = inc[tmp[j]].Distinct().ToList();
+                }
             }
             return inc;
         }
@@ -43,29 +48,42 @@ namespace Algorithms
             y2 = vertices[c].Y;
             z2 = vertices[c].Z;
 
-            double res = Math.Sqrt(Math.Pow(x1-x2,2) + Math.Pow(x1 - x2, 2) + Math.Pow(x1 - x2, 2));
-            return (res < radius) ? true: false;
+            double res = Math.Pow(x1 - x2, 2) + Math.Pow(x1 - x2, 2) + Math.Pow(x1 - x2, 2);
+            return res < Math.Pow(radius, 2);
         }
 
-        private Model DelVertexInCircle(Model model, double radius)
+        private Model CircleAlgorithm(Model model, double radius)
         {
             List<Mesh> meshes = model.Meshes;
 
             Mesh mesh = meshes[0];
 
-            List<int>[] inc = Incendent(mesh.Vertices.Count,mesh.Faces);
+            inc = Incendent(mesh.Vertices.Count, mesh.Faces);
+
+            //for (int i = 0; i < inc.Length; i++)
+            //{
+            //    Console.Write("{0}: ", i);
+            //    for (int j = 0; j < inc[i].Count; j++)
+            //    {
+            //        Console.Write("{0} ", inc[i][j]);
+            //    }
+            //    Console.WriteLine();
+            //}
 
             List<Vertex> vertices = mesh.Vertices;
 
-            for(int i = 0; i<inc.Length; i++)
-            { 
-                if (inc[i] == null) inc[i] = new List<int>();
+            //for (int i = 0; i < vertices.Count; i++)
+            //    Console.WriteLine("{0} {0}", vertices[i],i);
+
+            for (int i = 0; i < inc.Length; i++)
+            {
                 for (int j = 0; j < inc[i].Count; j++)
                 {
-                    if (Destination(i, j, vertices, radius)) RefactorVertex(i, j, inc, mesh.Faces);
+                    if (Destination(i, inc[i][j], vertices, radius)) RefactorVertex(i, inc[i][j], mesh.Faces);
                 }
             }
-            mesh = new Mesh(mesh.Vertices,mesh.Normals,fac,mesh.Edges);
+
+            mesh = new Mesh(mesh.Vertices, mesh.Normals, fac, mesh.Edges);
 
             Model myModel = new Model();
 
@@ -74,15 +92,22 @@ namespace Algorithms
             return myModel;
         }
 
-        private void RefactorVertex(int r, int c, List<int>[] inc, List<Face> faces)
+        private void RefactorVertex(int r, int c, List<Face> faces)
         {
+            inc[r].AddRange(inc[c]);
+            inc[r] = inc[r].Distinct().ToList();
+            inc[r].Remove(r);
+
             for (int i = 0; i < faces.Count; i++)
             {
                 List<int> ver = faces[i].Vertices;
-                if (!ver.Exists(x => x == r))
+                if (ver.Exists(x => x == c))
                 {
-                    if(ver.Exists(x => x == c)) ver[ver.IndexOf(c)] = r;
-                    fac.Add(new Face(3, ver));
+                    //if (!ver.Exists(y => y == r))
+                    //{
+                    ver[ver.IndexOf(c)] = r;
+                    fac.Add(new Face(ver.Count, ver));
+                    //}
                 }
             }
         }
