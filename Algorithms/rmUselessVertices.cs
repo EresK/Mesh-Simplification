@@ -40,19 +40,25 @@ namespace MeshSimplification{
         }
 
         private static bool checkVertice(Mesh mesh, int index){
+            int indexDel = index < 0 ? 0 : index;
             foreach (Face face in mesh.Faces) {
-                if (face.Vertices.Contains(index))
+                if (face.Vertices.Contains(indexDel))
                     return true;
             }
             return false;
         }
 
         private static void changeIndex(Mesh mesh, int index){
-            mesh.Vertices.RemoveAt(index);
+            int indexDel = index < 0 ? 0 : index;
+            
+            mesh.Vertices.RemoveAt(indexDel);
+
+            
+            
             foreach (Face face in mesh.Faces) {
-                face.Vertices[0] = face.Vertices[0] > index ? face.Vertices[0] - 1 : face.Vertices[0];
-                face.Vertices[1] = face.Vertices[1] > index ? face.Vertices[1] - 1 : face.Vertices[1];
-                face.Vertices[2] = face.Vertices[2] > index ? face.Vertices[2] - 1 : face.Vertices[2];
+                face.Vertices[0] = face.Vertices[0] > indexDel ? face.Vertices[0] - 1 : face.Vertices[0];
+                face.Vertices[1] = face.Vertices[1] > indexDel ? face.Vertices[1] - 1 : face.Vertices[1];
+                face.Vertices[2] = face.Vertices[2] > indexDel ? face.Vertices[2] - 1 : face.Vertices[2];
             }
         }
     }
