@@ -70,6 +70,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -88,17 +92,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Algorithm.cs" />
+    <Compile Include="Algorithms\Algorithm.cs" />
+    <Compile Include="Algorithms\Angles.cs" />
     <Compile Include="Algorithms\BoundBoxAABB.cs" />
-    <Compile Include="Algorithms\EdgeContraction.cs" />
-    <Compile Include="Algorithms\FaceContraction.cs" />
-    <Compile Include="Algorithms\NewAlgorithm.cs" />
+    <Compile Include="Algorithms\BoundBoxOOB.cs" />
     <Compile Include="CoefficientWindow.xaml.cs">
       <DependentUpon>CoefficientWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Algorithms\EdgeContractionAngle.cs" />
+    <Compile Include="Algorithms\EdgeContractionLength.cs" />
+    <Compile Include="Algorithms\FaceContraction.cs" />
     <Compile Include="Types\Property.cs" />
     <Compile Include="Types\Vertex.cs" />
-    <Compile Include="VertexCollapsingInRadius.cs" />
+    <Compile Include="Algorithms\VertexCollapsingInRadius.cs" />
     <Page Include="CoefficientWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

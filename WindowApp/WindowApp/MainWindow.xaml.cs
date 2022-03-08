@@ -13,14 +13,13 @@ using System.Windows.Media;
 
 namespace WindowApp
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         string MODEL_PATH;
         ModelVisual3D device3D = new ModelVisual3D();
         ModelVisual3D device3D2 = new ModelVisual3D();
+        ImporterPly pf3 = new ImporterPly();
+        ExporterPly pf32 = new ExporterPly();
 
         public MainWindow()
         {
@@ -44,13 +43,12 @@ namespace WindowApp
         /*
          * Данный метод загружает 3D модель по пути MODEL_PATH
          */
-        private void acceptButton_Click(object sender, RoutedEventArgs e)
+        private void LoadModelButton(object sender, RoutedEventArgs e)
         {
             MODEL_PATH = GetPath();
             if (viewPort3d.Children.Contains(device3D))
                 viewPort3d.Children.Remove(device3D);
 
-            ImporterPly pf3 = new ImporterPly(); 
             Model figure = pf3.Import(MODEL_PATH); // загрузка модели
 
             if (firstText.Text.Length > 0) // проверка, что ещё нет никаких данных в текстовом поле
@@ -65,13 +63,13 @@ namespace WindowApp
             viewPort3d.Children.Add(device3D);
         }
 
-        private void Button_Load2(object sender, RoutedEventArgs e)
+        private void LoadModelButton2(object sender, RoutedEventArgs e)
         {
             MODEL_PATH = GetPath();
             if (viewPort.Children.Contains(device3D2))
                 viewPort.Children.Remove(device3D2);
 
-            ImporterPly pf3 = new ImporterPly();
+
             Model figure = pf3.Import(MODEL_PATH); // загрузка модели
 
             if (secondText.Text.Length > 0) // проверка, что ещё нет никаких данных в текстовом поле
@@ -84,6 +82,14 @@ namespace WindowApp
             // изображение 3d модели в окне
             device3D2.Content = Display3d(MODEL_PATH, viewPort);
             viewPort.Children.Add(device3D2);
+        }
+
+        /*
+         * Данный метод закрывает весь проект
+         */
+        private void CloseProjectButton(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         /*
@@ -110,15 +116,11 @@ namespace WindowApp
         /*
          * Данный метод открывает новое окно и запускает алгоритм упрощения до параллелипипеда
          */
-        private void buttonAlgorithm_Click(object sender, RoutedEventArgs e)
+        private void BoundBoxAABB_Button(object sender, RoutedEventArgs e)
         {
-            BoundBoxAABB algorithm = new BoundBoxAABB();
-            ImporterPly pf3 = new ImporterPly();
-            ExporterPly pf32 = new ExporterPly();
-
-
             Model figure = pf3.Import(MODEL_PATH);
-            Model result = algorithm.Simplify(figure);
+            BoundBoxAABB algorithm = new BoundBoxAABB(figure);
+            Model result = algorithm.GetSimplifiedModel();
             if (viewPort.Children.Contains(device3D2))
                 viewPort.Children.Remove(device3D2);
 
@@ -129,21 +131,32 @@ namespace WindowApp
             viewPort.Children.Add(device3D2);
         }
 
-        private void buttonAlgorithm_Click2(object sender, RoutedEventArgs e)
+        private void AngelsButton(object sender, RoutedEventArgs e)
         {
-            EdgeContraction algorithm = new EdgeContraction();
-            ImporterPly pf3 = new ImporterPly();
-            ExporterPly pf32 = new ExporterPly();
+
             Model figure = pf3.Import(MODEL_PATH);
-
             double coef = writeCoefficient();
-
+            Angles algorithm = new Angles();
             Model result = algorithm.Simplify(figure, coef);
             if (viewPort.Children.Contains(device3D2))
                 viewPort.Children.Remove(device3D2);
 
-            if (secondText.Text.Length > 0)
-                secondText.Text = secondText.Text.Remove(0);
+            secondText.Text = printResult(result);
+
+            pf32.Export(MODEL_PATH, result, false, false);
+            device3D2.Content = Display3d(MODEL_PATH.Insert(MODEL_PATH.LastIndexOf(".", StringComparison.Ordinal), "_simplified"), viewPort);
+            viewPort.Children.Add(device3D2);
+        }
+
+        private void EdgeContractionAngelButton(object sender, RoutedEventArgs e)
+        {
+
+            Model figure = pf3.Import(MODEL_PATH);
+            double coef = writeCoefficient();
+            EdgeContractionAngle algorithm = new EdgeContractionAngle(figure, coef);
+            Model result = algorithm.GetSimplifiedModel();
+            if (viewPort.Children.Contains(device3D2))
+                viewPort.Children.Remove(device3D2);
 
             secondText.Text = printResult(result);
 
@@ -152,15 +165,16 @@ namespace WindowApp
             viewPort.Children.Add(device3D2);
         }
 
-        private void buttonAlgorithm_Click3(object sender, RoutedEventArgs e)
+
+        private void EdgeContractionLengthButton(object sender, RoutedEventArgs e)
         {
-            FaceContraction algorithm = new FaceContraction();
             ImporterPly pf3 = new ImporterPly();
             ExporterPly pf32 = new ExporterPly();
             Model figure = pf3.Import(MODEL_PATH);
-
             double coef = writeCoefficient();
-            Model result = algorithm.Simplify(figure, coef);
+
+            EdgeContractionLength algorithm = new EdgeContractionLength(figure, coef);
+            Model result = algorithm.GetSimplifiedModel();
 
             if (viewPort.Children.Contains(device3D2))
                 viewPort.Children.Remove(device3D2);
@@ -172,7 +186,28 @@ namespace WindowApp
             viewPort.Children.Add(device3D2);
         }
 
-        private void buttonAlgorithm_Click4(object sender, RoutedEventArgs e)
+        private void FaceContractionButton(object sender, RoutedEventArgs e)
+        {
+            ImporterPly pf3 = new ImporterPly();
+            ExporterPly pf32 = new ExporterPly();
+            Model figure = pf3.Import(MODEL_PATH);
+            double coef = writeCoefficient();
+
+            FaceContraction algorithm = new FaceContraction(figure, coef);
+            Model result = algorithm.GetSimplifiedModel();
+
+            if (viewPort.Children.Contains(device3D2))
+                viewPort.Children.Remove(device3D2);
+
+            secondText.Text = printResult(result);
+
+            pf32.Export(MODEL_PATH, result, false, false);
+            device3D2.Content = Display3d(MODEL_PATH.Insert(MODEL_PATH.LastIndexOf(".", StringComparison.Ordinal), "_simplified"), viewPort);
+            viewPort.Children.Add(device3D2);
+        }
+
+
+        private void VertexCollapsingButton(object sender, RoutedEventArgs e)
         {
             ImporterPly pf3 = new ImporterPly();
             ExporterPly pf32 = new ExporterPly();
@@ -192,14 +227,9 @@ namespace WindowApp
             viewPort.Children.Add(device3D2);
         }
 
-        /*
-         * Данный метод закрывает весь проект
-         */
-        private void escButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
+        /**
+         * Данный метод позволяет посчитать и вывести данные о 3d моделе
+         **/
         private String printResult(Model model)
         {
             int countVertex = 0;
@@ -218,6 +248,9 @@ namespace WindowApp
         }
 
 
+        /**
+         * Данный метод позволяет получить коэффициет упрощения модели, ведённый с клавиатуры
+         **/
         private double writeCoefficient()
         {
             double coef = 0.0;

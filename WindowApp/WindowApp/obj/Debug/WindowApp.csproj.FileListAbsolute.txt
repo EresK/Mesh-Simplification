@@ -90,3 +90,5 @@ C:\Users\Terminator\Desktop\Mesh-Simplification\WindowApp\WindowApp\bin\Debug\Sh
 C:\Users\Terminator\Desktop\Mesh-Simplification\WindowApp\WindowApp\bin\Debug\SharpDX.Mathematics.pdb
 C:\Users\Terminator\Desktop\Mesh-Simplification\WindowApp\WindowApp\bin\Debug\SharpDX.Mathematics.xml
 C:\Users\Terminator\Desktop\Mesh-Simplification\WindowApp\WindowApp\obj\Debug\WindowApp.csproj.CopyComplete
+C:\Users\Terminator\Desktop\Mesh-Simplification\WindowApp\WindowApp\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\Terminator\Desktop\Mesh-Simplification\WindowApp\WindowApp\bin\Debug\System.Numerics.Vectors.xml
