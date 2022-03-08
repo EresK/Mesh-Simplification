@@ -14,6 +14,14 @@ namespace MeshSimplification.Types {
             edges = new List<Edge>();
         }
 
+        public Mesh(List<Vertex> vertices, List<Face> faces)
+        {
+            this.vertices = vertices;
+            this.normals = new List<Vertex>();
+            this.faces = faces;
+            this.edges = new List<Edge>();
+        }
+
         public Mesh(List<Vertex> vertices, List<Vertex> normals, List<Face> faces, List<Edge> edges) {
             this.vertices = vertices;
             this.normals = normals;

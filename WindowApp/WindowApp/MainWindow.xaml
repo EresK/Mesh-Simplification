@@ -36,6 +36,19 @@
                 Foreground = "Black"
                 Height="33">
         </Button>
+        <Button x:Name = "buttonLoad" 
+            Grid.Column="2"
+            Background="BurlyWood"
+            Click = "Button_Load2"  
+            ClickMode = "Press" 
+            Content = "Load object 2" 
+            Margin = "0,123,0,0"  
+            Width = "94"  
+            IsDefault= "True"
+            HorizontalAlignment = "Center"  
+            VerticalAlignment ="Top"
+            Foreground = "Black"
+            Height="32"/>
         <Button x:Name = "button2" 
                 Grid.Column="2"
                 Background="BurlyWood"
@@ -68,7 +81,7 @@
         </helix:HelixViewport3D>
 
 
-        <Expander Header="Algorithms" Width="116" Grid.Column="2" Margin="0,121,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="170">
+        <Expander Header="Algorithms" Width="116" Grid.Column="2" Margin="0,185,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="170">
             <StackPanel Margin="0,0,0,-49">
                 <Button x:Name = "button3"
                 Background="BurlyWood"
@@ -100,7 +113,7 @@
                 ClickMode = "Press" 
                 Content = "Face Contraction"
                 Margin="0, 5, 1, 5"
-                Width = "94"  
+                Width = "98"  
                 IsDefault= "True"
                 Foreground = "Black"
                 Height="36"/>
@@ -109,11 +122,10 @@
                 Click = "buttonAlgorithm_Click4"
                 Margin="0,5"
                 ClickMode = "Press" 
-                Content = "New algorithm"
-                Width = "94"  
+                Content = "Collapsing Radius"
+                Width = "100"  
                 IsDefault= "True"
                 HorizontalAlignment = "Center"
-                VerticalAlignment ="Top"
                 Foreground = "Black"
                 Height="36"/>
             </StackPanel>

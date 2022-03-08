@@ -88,6 +88,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Algorithm.cs" />
     <Compile Include="Algorithms\BoundBoxAABB.cs" />
     <Compile Include="Algorithms\EdgeContraction.cs" />
     <Compile Include="Algorithms\FaceContraction.cs" />
@@ -97,6 +98,7 @@
     </Compile>
     <Compile Include="Types\Property.cs" />
     <Compile Include="Types\Vertex.cs" />
+    <Compile Include="VertexCollapsingInRadius.cs" />
     <Page Include="CoefficientWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

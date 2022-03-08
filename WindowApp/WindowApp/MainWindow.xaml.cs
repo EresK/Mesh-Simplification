@@ -9,17 +9,7 @@ using MeshSimplification.Readers.Exporter;
 using MeshSimplification.Readers.Importer;
 using MeshSimplification.Types;
 using MeshSimplification.Algorithms;
-
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WindowApp
 {
@@ -60,31 +50,41 @@ namespace WindowApp
             if (viewPort3d.Children.Contains(device3D))
                 viewPort3d.Children.Remove(device3D);
 
-            ImporterPly pf3 = new ImporterPly();
-            Model figure = pf3.Import(MODEL_PATH);
+            ImporterPly pf3 = new ImporterPly(); 
+            Model figure = pf3.Import(MODEL_PATH); // загрузка модели
 
-            if (firstText.Text.Length > 0)
+            if (firstText.Text.Length > 0) // проверка, что ещё нет никаких данных в текстовом поле
                 firstText.Text = firstText.Text.Remove(0);
 
 
-            int countVertex = 0;
-            int countFace = 0;
-            for (int i = 0; i < figure.Meshes.Count; ++i)
-            {
-                countVertex += figure.Meshes[i].Vertices.Count;
-                countFace += figure.Meshes[i].Faces.Count;
-            }
+            // информация о модели, которая была загружена для упрощения
+            firstText.Text = printResult(figure);
 
-            String lines = "\tDetails: \n";
-            String firstResult = "\tCount vertexes: " + countVertex + "\n";
-            String thirdResult = "\tCount faces: " + countFace + "\n";
-            firstText.Text = lines + firstResult + thirdResult;
-
-
+            // изображение 3d модели в окне
             device3D.Content = Display3d(MODEL_PATH, viewPort3d);
             viewPort3d.Children.Add(device3D);
         }
 
+        private void Button_Load2(object sender, RoutedEventArgs e)
+        {
+            MODEL_PATH = GetPath();
+            if (viewPort.Children.Contains(device3D2))
+                viewPort.Children.Remove(device3D2);
+
+            ImporterPly pf3 = new ImporterPly();
+            Model figure = pf3.Import(MODEL_PATH); // загрузка модели
+
+            if (secondText.Text.Length > 0) // проверка, что ещё нет никаких данных в текстовом поле
+                secondText.Text = firstText.Text.Remove(0);
+
+
+            // информация о модели, которая была загружена для упрощения
+            secondText.Text = printResult(figure);
+
+            // изображение 3d модели в окне
+            device3D2.Content = Display3d(MODEL_PATH, viewPort);
+            viewPort.Children.Add(device3D2);
+        }
 
         /*
          * Данный метод загружает модель по передаваемому пути
@@ -95,7 +95,7 @@ namespace WindowApp
             try
             {
                 Material material = new DiffuseMaterial(new SolidColorBrush(Colors.Beige));
-                viewport.RotateGesture = new MouseGesture(MouseAction.LeftClick);
+                viewport.RotateGesture2 = new MouseGesture(MouseAction.LeftClick);
                 ModelImporter import = new ModelImporter();
                 import.DefaultMaterial = material;
                 device = import.Load(model);
@@ -174,13 +174,14 @@ namespace WindowApp
 
         private void buttonAlgorithm_Click4(object sender, RoutedEventArgs e)
         {
-            NewAlgorithm algorithm = new NewAlgorithm();
             ImporterPly pf3 = new ImporterPly();
             ExporterPly pf32 = new ExporterPly();
-
             Model figure = pf3.Import(MODEL_PATH);
             double coef = writeCoefficient();
-            Model result = algorithm.Simplify(figure, coef);
+
+            VertexCollapsingInRadius algorithm = new VertexCollapsingInRadius(figure, coef);
+            Model result = algorithm.GetSimplifiedModel();
+
             if (viewPort.Children.Contains(device3D2))
                 viewPort.Children.Remove(device3D2);
 
@@ -228,7 +229,7 @@ namespace WindowApp
                     MessageBox.Show("Wrong coefficient");
                     writeCoefficient();
                 }
-                if (coef < 0 || coef > 1)
+                if (coef < 0)
                 {
                     MessageBox.Show("Wrong coefficient");
                     writeCoefficient();
