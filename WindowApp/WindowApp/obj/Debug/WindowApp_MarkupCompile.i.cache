@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Terminator\Desktop\Mesh-Simplification\WindowApp\WindowApp\App.xaml
-2117391928
+311003516
 
-24-1528652641
+25502100699
 130-233050525
-CoefficientWindow.xaml;MainWindow.xaml;
+AlgorithmsWindow.xaml;CoefficientWindow.xaml;MainWindow.xaml;
 
-False
+True
 

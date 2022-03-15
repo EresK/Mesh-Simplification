@@ -92,6 +92,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AlgorithmsWindow.xaml.cs">
+      <DependentUpon>AlgorithmsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Algorithms\Algorithm.cs" />
     <Compile Include="Algorithms\Angles.cs" />
     <Compile Include="Algorithms\BoundBoxAABB.cs" />
@@ -105,6 +108,10 @@
     <Compile Include="Types\Property.cs" />
     <Compile Include="Types\Vertex.cs" />
     <Compile Include="Algorithms\VertexCollapsingInRadius.cs" />
+    <Page Include="AlgorithmsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CoefficientWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -81,7 +81,7 @@
         </helix:HelixViewport3D>
 
 
-        <Expander Header="Algorithms" Width="116" Grid.Column="2" Margin="0,185,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="298" Grid.RowSpan="2">
+        <Expander Header="Algorithms" Width="116" Grid.Column="2" Margin="0,225,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="298" Grid.RowSpan="2">
             <StackPanel Margin="0,0,0,-131">
                 <Button x:Name = "button3"
                 Background="BurlyWood"
@@ -150,5 +150,18 @@
                 Height="36"/>
             </StackPanel>
         </Expander>
+        <Button x:Name = "buttonRunAlgorithms" 
+            Grid.Column="2"
+            Background="BurlyWood"
+            Click = "runAlgorithmsButton"  
+            ClickMode = "Press" 
+            Content = "Run Algorithms" 
+            Margin = "0,172,0,0"  
+            Width = "94"  
+            IsDefault= "True"
+            HorizontalAlignment = "Center"  
+            VerticalAlignment ="Top"
+            Foreground = "Black"
+            Height="32"/>
     </Grid>
 </Window>

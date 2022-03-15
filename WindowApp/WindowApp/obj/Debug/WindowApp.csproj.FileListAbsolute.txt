@@ -92,3 +92,6 @@ C:\Users\Terminator\Desktop\Mesh-Simplification\WindowApp\WindowApp\bin\Debug\Sh
 C:\Users\Terminator\Desktop\Mesh-Simplification\WindowApp\WindowApp\obj\Debug\WindowApp.csproj.CopyComplete
 C:\Users\Terminator\Desktop\Mesh-Simplification\WindowApp\WindowApp\bin\Debug\System.Numerics.Vectors.dll
 C:\Users\Terminator\Desktop\Mesh-Simplification\WindowApp\WindowApp\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\Terminator\Desktop\Mesh-Simplification\WindowApp\WindowApp\obj\Debug\AlgorithmsWindow.g.cs
+C:\Users\Terminator\Desktop\Mesh-Simplification\WindowApp\WindowApp\obj\Debug\WindowApp_MarkupCompile.lref
+C:\Users\Terminator\Desktop\Mesh-Simplification\WindowApp\WindowApp\obj\Debug\AlgorithmsWindow.baml
