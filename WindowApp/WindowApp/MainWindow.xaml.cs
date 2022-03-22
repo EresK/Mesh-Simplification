@@ -8,6 +8,7 @@ using System.Threading;
 using MeshSimplification.Readers.Exporter;
 using MeshSimplification.Readers.Importer;
 using MeshSimplification.Types;
+using MeshSimplification;
 using MeshSimplification.Algorithms;
 using System.Windows.Media;
 using System.Diagnostics;
@@ -146,6 +147,8 @@ namespace WindowApp
             sw.Reset();
             sw.Start();
             Model result = algorithm.GetSimplifiedModel();
+            rmUselessVertices rm = new rmUselessVertices();
+            rm.RemoveVertices(result);
             sw.Stop();
             if (viewPort.Children.Contains(device3D2))
                 viewPort.Children.Remove(device3D2);
@@ -170,6 +173,8 @@ namespace WindowApp
             sw.Start();
             Model result = algorithm.GetSimplifiedModel();
             sw.Stop();
+            rmUselessVertices rm = new rmUselessVertices();
+            rm.RemoveVertices(result);
 
             if (viewPort.Children.Contains(device3D2))
                 viewPort.Children.Remove(device3D2);
@@ -194,7 +199,8 @@ namespace WindowApp
             sw.Start();
             Model result = algorithm.GetSimplifiedModel();
             sw.Stop();
-
+            rmUselessVertices rm = new rmUselessVertices();
+            rm.RemoveVertices(result);
             if (viewPort.Children.Contains(device3D2))
                 viewPort.Children.Remove(device3D2);
 
@@ -272,6 +278,8 @@ namespace WindowApp
             {
                 EdgeContractionAngle algorithm = new EdgeContractionAngle(figure);
                 Model model = algorithm.GetSimplifiedModel();
+                rmUselessVertices rm = new rmUselessVertices();
+                rm.RemoveVertices(model);
                 pf32.Export(MODEL_PATH.Insert(MODEL_PATH.LastIndexOf(".", StringComparison.Ordinal), "_angle"), model, false, false);
             }
         }

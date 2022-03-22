@@ -26,7 +26,7 @@ namespace MeshSimplification.Algorithms
         public EdgeContractionAngle(Model model)
         {
             this.model = model;
-            ratio = 40;
+            ratio = 170;
         }
 
         public override Model GetSimplifiedModel()
