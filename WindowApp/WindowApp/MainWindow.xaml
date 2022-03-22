@@ -94,17 +94,7 @@
                 HorizontalAlignment = "Center"
                 Foreground = "Black"
                 Height="36"/>
-                <Button x:Name = "button4"
-                Background="BurlyWood"
-                Click = "AngelsButton"  
-                ClickMode = "Press" 
-                Content = "Angels"
-                Margin="0,5"
-                Width = "105"  
-                IsDefault= "True"
-                HorizontalAlignment = "Center"
-                Foreground = "Black"
-                Height="36"/>
+                
                 <Button x:Name = "button5"
                 Background="BurlyWood"
                 Click = "EdgeContractionAngelButton"  

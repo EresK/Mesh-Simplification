@@ -67,12 +67,12 @@ namespace WindowApp
 
         private void LoadModelButton2(object sender, RoutedEventArgs e)
         {
-            MODEL_PATH = GetPath();
+            string MODEL_PATH_2 = GetPath();
             if (viewPort.Children.Contains(device3D2))
                 viewPort.Children.Remove(device3D2);
 
 
-            Model figure = pf3.Import(MODEL_PATH); // загрузка модели
+            Model figure = pf3.Import(MODEL_PATH_2); // загрузка модели
 
             if (secondText.Text.Length > 0) // проверка, что ещё нет никаких данных в текстовом поле
                 secondText.Text = firstText.Text.Remove(0);
@@ -82,7 +82,7 @@ namespace WindowApp
             secondText.Text = printResult(figure);
 
             // изображение 3d модели в окне
-            device3D2.Content = Display3d(MODEL_PATH, viewPort);
+            device3D2.Content = Display3d(MODEL_PATH_2, viewPort);
             viewPort.Children.Add(device3D2);
         }
 
@@ -136,25 +136,6 @@ namespace WindowApp
             viewPort.Children.Add(device3D2);
         }
 
-        private void AngelsButton(object sender, RoutedEventArgs e)
-        {
-
-            Model figure = pf3.Import(MODEL_PATH);
-            double coef = writeCoefficient();
-            Angles algorithm = new Angles();
-            sw.Reset();
-            sw.Start();
-            Model result = algorithm.Simplify(figure, coef);
-            sw.Stop();
-            if (viewPort.Children.Contains(device3D2))
-                viewPort.Children.Remove(device3D2);
-
-            secondText.Text = printResult2(result);
-
-            pf32.Export(MODEL_PATH, result, false, false);
-            device3D2.Content = Display3d(MODEL_PATH.Insert(MODEL_PATH.LastIndexOf(".", StringComparison.Ordinal), "_simplified"), viewPort);
-            viewPort.Children.Add(device3D2);
-        }
 
         private void EdgeContractionAngelButton(object sender, RoutedEventArgs e)
         {
