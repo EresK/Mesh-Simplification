@@ -26,7 +26,7 @@ namespace MeshSimplification.Algorithms
         public EdgeContractionAngle(Model model)
         {
             this.model = model;
-            ratio = 5;
+            ratio = 40;
         }
 
         public override Model GetSimplifiedModel()
@@ -36,12 +36,6 @@ namespace MeshSimplification.Algorithms
         }
 
         //general methods   ↓↓↓
-        private bool EdgeInFace(Edge edge, Face face)
-        {
-            return face.Vertices.Exists(x => x == edge.Vertex1) &&
-                   face.Vertices.Exists(x => x == edge.Vertex2);
-        }
-
         private bool IfEdge(Edge edge, List<Edge> edges)
         {
             return edges.Exists(x =>
@@ -119,6 +113,7 @@ namespace MeshSimplification.Algorithms
             vector3.Z -= (float)((mesh.Vertices[face.Vertices[1]].Y - mesh.Vertices[face.Vertices[0]].Y) *
                                   (mesh.Vertices[face.Vertices[2]].X - mesh.Vertices[face.Vertices[0]].X));
 
+            //Console.WriteLine("x: {0}, y: {1}, z: {2}", vector3.X, vector3.Y, vector3.Z);
             return vector3;
         }
 
@@ -129,42 +124,35 @@ namespace MeshSimplification.Algorithms
             int before = mesh.Faces.Count;
             int v1Index, v2Index;
 
-            int iterator = 0;
 
-            while (iterator != edges.Count)
+            double angleCosValueInput;
+            double angleCosValue;
+            double angleValue;
+            double trueAngleCosValue;
+
+
+            foreach (Edge edge in edges)
             {
-                Edge edge = edges[iterator];
+                List<Face> facesFounded = faces.FindAll(face => face.Vertices.Contains(edge.Vertex1) &&
+                                                                face.Vertices.Contains(edge.Vertex2));
 
-                List<Face> facesFounded = faces.FindAll(face => EdgeInFace(edge, face));
                 if (facesFounded.Count != 2)
-                {
-                    iterator += 1;
                     continue;
-                }
 
                 Vector3 normal1 = GetNormal(mesh, facesFounded[0]);
                 Vector3 normal2 = GetNormal(mesh, facesFounded[1]);
 
-                double angleCosValueInput = Math.Cos(ratio * 0.01745);
 
-                double angleCosValue = CountAngle(normal1, normal2);
+                angleCosValueInput = Math.Cos(ratio * 0.01745); //convert to radians and take cos
 
-                double angleValue = Math.Acos(angleCosValue);
-                angleValue *= 57.2958;
+                angleCosValue = CountAngle(normal1, normal2); //get cos value of angle between normals
 
-                double trueAngle = Math.Abs(180 - angleValue);
-                angleCosValue = Math.Cos(trueAngle);
+                angleValue = Math.Abs(Math.PI - Math.Acos(angleCosValue)); //getting radians, then get real angle
 
-                angleCosValue = angleCosValue > 1 ? 1 : angleCosValue;
-                angleCosValue = angleCosValue < -1 ? -1 : angleCosValue;
+                trueAngleCosValue = Math.Cos(angleValue); //taking cos of radian value of real angle
 
-                //Console.WriteLine("input: {0}, current: {1}", 
-                //    angleCosValueInput, angleCosValue);
-
-                angleCosValue = (angleCosValue == 1) ? -1 : angleCosValue;
-
-                if (angleCosValue > angleCosValueInput)
-                {
+                if (trueAngleCosValue > angleCosValueInput)
+                { //we want to save obtuse angles 
                     v1Index = edge.Vertex1;
                     v2Index = edge.Vertex2;
 
@@ -174,18 +162,9 @@ namespace MeshSimplification.Algorithms
                     Vertex newVert = new Vertex((v1.X + v2.X) / 2,
                         (v1.Y + v2.Y) / 2, (v1.Z + v2.Z) / 2);
 
-                    faces.RemoveAll(x => EdgeInFace(edge, x));
 
-
-
-                    /*
-                    for (int i = iterator; i < edges.Count; i++) {
-                        if (edges[i].Vertex1 == v1Index || edges[i].Vertex1 == v2Index)
-                            edges[i] = new Edge(vertices.Count - 1, edges[i].Vertex2);
-                        
-                        if (edges[i].Vertex2 == v1Index || edges[i].Vertex2 == v2Index)
-                            edges[i] = new Edge(edges[i].Vertex1, vertices.Count - 1);
-                    }*/
+                    faces.RemoveAll(x => x.Vertices.Contains(edge.Vertex1) &&
+                                                    x.Vertices.Contains(edge.Vertex2));
 
                     vertices.Add(newVert);
 
@@ -201,10 +180,7 @@ namespace MeshSimplification.Algorithms
                             faces[iter].Vertices[2] = vertices.Count - 1;
                     }
                 }
-                else
-                    iterator += 1;
             }
-
 
             Console.WriteLine("Stat:");
             Console.WriteLine("faces before: {0}", before);
