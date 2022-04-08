@@ -1,7 +1,7 @@
-﻿<Application x:Class="WindowApp.App"
+﻿<Application x:Class="WindowDevelop.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:WindowApp"
+             xmlns:local="clr-namespace:WindowDevelop"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          
