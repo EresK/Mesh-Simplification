@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "nMVqgXAZ1fz+gTENwcZf33wbqgK1ThFgjYvNwnKX/q/wYPi20fLeK6lb78f8vAMWP78mBXPV51URozV0B8YDCg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Eres\\RiderProjects\\WindowApp\\WindowApp\\WindowApp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Eres\\.nuget\\packages\\helixtoolkit\\2.20.2\\helixtoolkit.2.20.2.nupkg.sha512",
+    "C:\\Users\\Eres\\.nuget\\packages\\helixtoolkit.core.wpf\\2.20.2\\helixtoolkit.core.wpf.2.20.2.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,74 @@
+﻿<Window x:Class="WindowDevelop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WindowDevelop"
+        xmlns:helix="http://helix-toolkit.org/wpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Menu Grid.Row="0" Grid.ColumnSpan="2" Height="20" VerticalAlignment="Top">
+            <MenuItem Header="File">
+                <MenuItem Click="OpenFile" Header="Open file"></MenuItem>
+                <MenuItem Click="CloseWindow" Header="Close window"></MenuItem>
+            </MenuItem>
+            
+            <MenuItem Header="Properties">
+                <MenuItem x:Name="InputDirectory" Click="ChangeDirectory" Header="Input directory"/>
+                <MenuItem x:Name="OutputDirectory" Click="ChangeDirectory" Header="Output directory"/>
+                <CheckBox x:Name="IsBinaryOut" Click="ChangeIsBinaryOut" Content="Binary out"/>
+            </MenuItem>
+
+            <MenuItem Click="RunAlgorithms" Header="Run"/>
+
+            <MenuItem Header="Algorithms">
+                <CheckBox x:Name="SelectAllBox" Content="Select all"/>
+
+                <StackPanel x:Name="AlgorithmPanel" Orientation="Vertical">
+                    <CheckBox x:Name="xBoundBoxAABB"
+                              IsChecked="{Binding ElementName=SelectAllBox, Path=IsChecked,
+                              Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                              Content="Bound Box AABB"/>
+                    
+                    <CheckBox x:Name="xEdgeContractionAngle"
+                              IsChecked="{Binding ElementName=SelectAllBox, Path=IsChecked,
+                              Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                              Content="Edge Contraction Angle"/>
+                    
+                    <CheckBox x:Name="xVertexCollapsingInRadius"
+                              IsChecked="{Binding ElementName=SelectAllBox, Path=IsChecked,
+                              Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                              Content="Vertex Collapsing In Radius"/>
+                </StackPanel>
+                
+            </MenuItem>
+        </Menu>
+
+        <helix:HelixViewport3D Grid.Row="1" Grid.Column="0"
+                               x:Name="ViewPort1" Drop="ViewPortDrop" AllowDrop="True">
+            <helix:DefaultLights/>
+        </helix:HelixViewport3D>
+
+        <helix:HelixViewport3D Grid.Row="1" Grid.Column="1"
+                               x:Name="ViewPort2" Drop="ViewPortDrop" AllowDrop="True">
+            <helix:DefaultLights/>
+        </helix:HelixViewport3D>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" x:Name="InfoText1">
+        </TextBlock>
+
+        <TextBlock Grid.Row="2" Grid.Column="1" x:Name="InfoText2">
+        </TextBlock>
+    </Grid>
+</Window>
