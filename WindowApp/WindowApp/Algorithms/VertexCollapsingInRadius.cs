@@ -55,7 +55,7 @@ namespace MeshSimplification.Algorithms
                     cnt += 3;
                 }
             }
-            return sum / cnt;
+            return sum / cnt * 0.5;
         }
 
         private Mesh MeshRefactor(Mesh mesh)
@@ -123,8 +123,7 @@ namespace MeshSimplification.Algorithms
                     if (!face.Vertices.Contains(v))
                     {
                         List<int> ver = face.Vertices;
-                        ver.Remove(v1);
-                        ver.Add(v);
+                        ver[ver.IndexOf(v1)] = v;
                         simplifiedFaces.Add(new Face(ver.Count, ver));
                     }
                 }
