@@ -3,6 +3,11 @@ using Types;
 
 namespace ConsoleApp1;
 
+class Struct
+{
+    public int index;
+}
+
 public class FastVertexCollapsingInRadius: Algorithm
 {
     private Model simplifiedModel;
@@ -29,19 +34,40 @@ public class FastVertexCollapsingInRadius: Algorithm
     private Mesh MeshRefactor(Mesh mesh)
     {
         List<int>[] incidental = IncidentalVerticies(mesh);
-        List<Face>[] relatedFaces = RelatedFaces(mesh);
-        List<int> currentDel;
+        
+        List<Struct>[] fastIncidental = new List<Struct>[incidental.Length];
+        Struct[] arr = new Struct[incidental.Length];
 
-        for (int v = 0; v < incidental.Length; v++)
+        for (int i = 0; i < arr.Length; i++)
         {
-            currentDel = new List<int>();
-            foreach (int v1 in incidental[v]) {
-                if (CheckDistance(mesh.Vertices[v], mesh.Vertices[v1])) {
-                    RefactorVertex(v, v1, relatedFaces);
-                    currentDel.Add(v1);
+            arr[i] = new Struct();
+            arr[i].index = i;
+        }
+
+        for (int i = 0; i < incidental.Length; i++)
+        {
+            fastIncidental[i] = new List<Struct>();
+            for (int k = 0; k < incidental[i].Count; k++)
+            {
+                fastIncidental[i].Add(arr[incidental[i][k]]);
+            }
+        }
+
+        List<Face>[] relatedFaces = RelatedFaces(mesh);
+
+        for (int v = 0; v < fastIncidental.Length; v++)
+        {
+            if (arr[v].index != -1)
+            {
+                foreach (Struct v1 in fastIncidental[v])
+                {
+                    if (v1.index != -1 && CheckDistance(mesh.Vertices[v], mesh.Vertices[v1.index]))
+                    {
+                        RefactorVertex(v, v1.index, relatedFaces);
+                        v1.index = -1;
+                    }
                 }
             }
-            RefactorIncidental(incidental, v, currentDel);
         }
     
         List<Face> faces = FaceNormalize(mesh.Faces);
@@ -68,21 +94,6 @@ public class FastVertexCollapsingInRadius: Algorithm
         relatedFaces[v1].Clear();
     }
 
-    private void RefactorIncidental(List<int>[] incidental, int v, List<int> currentdel){
-        foreach (int v1 in currentdel) {
-            foreach (int v2 in incidental[v1])  
-            {
-                incidental[v2].Remove(v1);
-                if (v2 != v)
-                {
-                    if (!incidental[v2].Contains(v)) incidental[v2].Add(v);
-                    if (!incidental[v].Contains(v2)) incidental[v].Add(v2);
-                }
-            }
-            incidental[v1].Clear();
-        }
-    }
-    
     private double getBaseCoefficient(Model model)
     {
         int cnt = 0;
@@ -100,7 +111,7 @@ public class FastVertexCollapsingInRadius: Algorithm
         return sum / cnt;
     }
     
-    private protected Boolean CheckDistance(Vertex v1, Vertex v2){
+    private bool CheckDistance(Vertex v1, Vertex v2){
         return Math.Sqrt(Math.Pow(v1.X - v2.X,2) + Math.Pow(v1.Y - v2.Y,2) + Math.Pow(v1.Z - v2.Z,2)) < simplificationCoefficient;
     }
         
