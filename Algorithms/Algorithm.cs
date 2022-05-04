@@ -37,21 +37,22 @@ public abstract class Algorithm
             foreach (int v in face.Vertices) 
                 injection[v] = true;
 
-        List<Boolean> inj = new List<bool>(injection);
-        int index;
+        int[] arr = new int[vertices.Count];
 
-        do {
-            index = inj.Select((n, i) => n == false ? (int?) i : null).FirstOrDefault(n => n != null) ?? -1;
-            if(index == -1) break;
-            inj.RemoveAt(index);
-            vertices.RemoveAt(index);
-            for(int i = 0; i<faces.Count; i++)
-                for(int j = 0; j < faces[i].Count; j++)
-                    if (faces[i].Vertices[j] > index)
-                        faces[i].Vertices[j] -= 1; 
-        } while (true);
+        List<Vertex> result = new List<Vertex>();
 
-        return vertices;
+        int cnt = 0;
+        for (int i = 0; i < injection.Length; i++)
+        {
+            if (!injection[i]) cnt++;
+            else result.Add(vertices[i]);
+            arr[i] = cnt;
+        }
+
+        for(int i = 0; i < faces.Count; i++)
+            for (int k = 0; k < faces[i].Count; k++)
+                faces[i].Vertices[k] -= arr[faces[i].Vertices[k]];
+        
+        return result;
     }
-
 }
