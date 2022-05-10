@@ -11,8 +11,7 @@ public class FastVertexCollapsingInRadiusWithAngle: Algorithm
     private Model simplifiedModel;
     private double simplificationCoefficient;
     private Struct[] arr;
-    private double angle = -0.8;
-    //private double angle = 1;
+    private double angle = 0.7;
 
     public FastVertexCollapsingInRadiusWithAngle(Model model)
     {
@@ -89,10 +88,8 @@ public class FastVertexCollapsingInRadiusWithAngle: Algorithm
                         currentAngle = CountAngle(
                             GetNormal(mesh.Vertices[ost[0]], mesh.Vertices[ost[1]], mesh.Vertices[v]),
                             GetNormal(mesh.Vertices[ost[0]], mesh.Vertices[ost[1]], mesh.Vertices[v1.index]));
-                        
-                        //Console.WriteLine(currentAngle);
-                        
-                        if (currentAngle < angle)
+
+                        if (currentAngle > angle)
                         {
                             RefactorVertex(v, v1.index, relatedFaces);
                             v1.index = -1;
@@ -100,7 +97,6 @@ public class FastVertexCollapsingInRadiusWithAngle: Algorithm
                     }
                 }
             }
-            
         }
 
         List<Face> faces = FaceNormalize(mesh.Faces);
