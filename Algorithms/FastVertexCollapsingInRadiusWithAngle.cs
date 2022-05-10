@@ -1,19 +1,28 @@
-using System.Diagnostics;
+using System.Numerics;
 using Algorithms;
 using Types;
 
 namespace ConsoleApp1;
 
-public class FastVertexCollapsingInRadius: Algorithm
+public class FastVertexCollapsingInRadiusWithAngle: Algorithm
 {
     record Struct { public int index; }
     
     private Model simplifiedModel;
     private double simplificationCoefficient;
     private Struct[] arr;
+    private double angle = -0.8;
+    //private double angle = 1;
 
-    public FastVertexCollapsingInRadius(Model model)
+    public FastVertexCollapsingInRadiusWithAngle(Model model)
     {
+        simplificationCoefficient = getBaseCoefficient(model);
+        simplifiedModel = ModelRefactor(model);
+    }
+    
+    public FastVertexCollapsingInRadiusWithAngle(Model model, double angleCos)
+    {
+        angle = angleCos;
         simplificationCoefficient = getBaseCoefficient(model);
         simplifiedModel = ModelRefactor(model);
     }
@@ -59,26 +68,46 @@ public class FastVertexCollapsingInRadius: Algorithm
 
         List<Face>[] relatedFaces = RelatedFaces(mesh);
 
+        double currentAngle;
+        List<int> ost;
+
         for (int v = 0; v < fastIncidental.Length; v++)
         {
-            if (arr[v].index != -1)
+            if (arr[v].index == -1) continue;
+            
+            foreach (Struct v1 in fastIncidental[v])
             {
-                foreach (Struct v1 in fastIncidental[v])
+                if (v1.index != -1 && CheckDistance(mesh.Vertices[v], mesh.Vertices[v1.index]))
                 {
-                    if (v1.index != -1 && CheckDistance(mesh.Vertices[v], mesh.Vertices[v1.index]))
+                    Face face = relatedFaces[v1.index].Find(face1 => !face1.Vertices.Contains(v));
+
+                    if (face != null)
                     {
-                        RefactorVertex(v, v1.index, relatedFaces);
-                        v1.index = -1;
+                        ost = new List<int>(face.Vertices);
+                        ost.Remove(v1.index);
+
+                        currentAngle = CountAngle(
+                            GetNormal(mesh.Vertices[ost[0]], mesh.Vertices[ost[1]], mesh.Vertices[v]),
+                            GetNormal(mesh.Vertices[ost[0]], mesh.Vertices[ost[1]], mesh.Vertices[v1.index]));
+                        
+                        //Console.WriteLine(currentAngle);
+                        
+                        if (currentAngle < angle)
+                        {
+                            RefactorVertex(v, v1.index, relatedFaces);
+                            v1.index = -1;
+                        }
                     }
                 }
             }
+            
         }
-    
+
         List<Face> faces = FaceNormalize(mesh.Faces);
 
         return new Mesh(VerticesNormalaze(mesh.Vertices, faces), new List<Vertex>(), faces, new List<Edge>());
     }
-
+    
     private List<Face> FaceNormalize(List<Face> faces)
     {
         List<Face> newFaces = new List<Face>();
@@ -103,9 +132,9 @@ public class FastVertexCollapsingInRadius: Algorithm
         {
             foreach (Face face in mesh.Faces)
             {
-                sum += getDistance(mesh.Vertices[face.Vertices[0]], mesh.Vertices[face.Vertices[1]]);
-                sum += getDistance(mesh.Vertices[face.Vertices[1]], mesh.Vertices[face.Vertices[2]]);
-                sum += getDistance(mesh.Vertices[face.Vertices[2]], mesh.Vertices[face.Vertices[0]]);
+                sum += GetDistance(mesh.Vertices[face.Vertices[0]], mesh.Vertices[face.Vertices[1]]);
+                sum += GetDistance(mesh.Vertices[face.Vertices[1]], mesh.Vertices[face.Vertices[2]]);
+                sum += GetDistance(mesh.Vertices[face.Vertices[2]], mesh.Vertices[face.Vertices[0]]);
                 cnt += 3;
             }
         }
@@ -116,7 +145,7 @@ public class FastVertexCollapsingInRadius: Algorithm
         return Math.Sqrt(Math.Pow(v1.X - v2.X,2) + Math.Pow(v1.Y - v2.Y,2) + Math.Pow(v1.Z - v2.Z,2)) < simplificationCoefficient;
     }
         
-    private double getDistance(Vertex v1, Vertex v2){
+    private double GetDistance(Vertex v1, Vertex v2){
         return Math.Sqrt(Math.Pow(v1.X - v2.X,2) + Math.Pow(v1.Y - v2.Y,2) + Math.Pow(v1.Z - v2.Z,2));
     }
 
@@ -133,5 +162,29 @@ public class FastVertexCollapsingInRadius: Algorithm
         }
 
         return relatedFaces;
+    }
+    
+    private double CountAngle(Vector3 normal1, Vector3 normal2){
+        double scalar;
+        double length;
+
+        scalar = normal1.X * normal2.X + normal1.Y * normal2.Y + normal1.Z * normal2.Z;
+        length = Math.Sqrt(normal1.X * normal1.X + normal1.Y * normal1.Y + normal1.Z * normal1.Z);
+        length *= Math.Sqrt(normal2.X * normal2.X + normal2.Y * normal2.Y + normal2.Z * normal2.Z);
+        return scalar / length;
+    }
+    
+    private Vector3 GetNormal(Vertex v0, Vertex v1, Vertex v2)
+    {
+        Vector3 vector3 = new Vector3();
+
+        vector3.X = (float) ((v1.Y - v0.Y) * (v2.Z - v0.Z));
+        vector3.X -= (float) ((v1.Z - v0.Z) * (v2.Y - v0.Y));
+        vector3.Y = (float) ((v2.X - v0.X) * (v1.Z - v0.Z));
+        vector3.Y -= (float) ((v2.Z - v0.Z) * (v1.X - v0.X));
+        vector3.Z = (float) ((v1.X - v0.X) * (v2.Y - v0.Y));
+        vector3.Z -= (float) ((v1.Y - v0.Y) * (v2.X - v0.X));
+            
+        return vector3;
     }
 }
