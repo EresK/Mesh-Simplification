@@ -67,8 +67,7 @@ public class EdgeContractionAngle : Algorithm {
 
         return answer;
     }
-
-    //code based on angles    ↓↓↓
+    
     private Model SimplifyAngle(Model model) {
         Model modelNew = new Model();
 
@@ -81,21 +80,7 @@ public class EdgeContractionAngle : Algorithm {
     }
 
     private Mesh SimplifyMeshAngle(Mesh mesh) {
-        // Stopwatch stopWatch = new Stopwatch();
-        // stopWatch.Start();
-
         List<Edge> edges = GetEdges(mesh);
-        // stopWatch.Stop();
-        // Get the elapsed time as a TimeSpan value.
-        // TimeSpan ts = stopWatch.Elapsed;
-
-        // Format and display the TimeSpan value.
-        // string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-        //     ts.Hours, ts.Minutes, ts.Seconds,
-        //     ts.Milliseconds / 10);
-        // Console.WriteLine("RunTime get edges " + elapsedTime);
-        // Console.WriteLine("Edges count: " + edges.Count);
-
         Mesh meshNew = BasedAngle(mesh, edges);
         return meshNew;
     }
@@ -131,7 +116,6 @@ public class EdgeContractionAngle : Algorithm {
     private Mesh BasedAngle(Mesh mesh, List<Edge> edges) {
         List<Vertex> vertices = mesh.Vertices;
         List<Face> faces = mesh.Faces;
-        // int before = mesh.Faces.Count;
 
         foreach (Edge edge in edges) {
             if (deleted.Exists(x => x == edge.Vertex1 || x == edge.Vertex2))
@@ -150,17 +134,8 @@ public class EdgeContractionAngle : Algorithm {
             double angleCosValueInputMin = Math.Cos(ConvertToRadians(ratioMin));
             double angleCosValueInputMax = Math.Cos(ConvertToRadians(ratioMax));
 
-            double angleCosValue = CountAngle(normal1, normal2); //get cos value of angle between normals
-
-            //angleValue = Math.Abs(Math.PI - Math.Acos(angleCosValue)); //getting radians, then get real angle
-
-            //trueAngleCosValue = Math.Cos(angleValue); //taking cos of radian value of real angle
-
-            /*
-             * if input value >90 then we remove angles in range [180 - a; a]
-             * value <90 then range will be [a; 180 - a]
-             */
-            //if (angleCosValueInputMax < trueAngleCosValue && trueAngleCosValue < angleCosValueInputMin) {
+            double angleCosValue = CountAngle(normal1, normal2);
+            
             if (angleCosValueInputMax < angleCosValue && angleCosValue < angleCosValueInputMin) {
                 int v1Index = edge.Vertex1;
                 int v2Index = edge.Vertex2;
@@ -192,12 +167,7 @@ public class EdgeContractionAngle : Algorithm {
                 deleted.Add(v2Index);
             }
         }
-
-        // Console.WriteLine("Stat:");
-        // Console.WriteLine("faces before: {0}", before);
-        // Console.WriteLine("faces after: {0}", faces.Count);
-        // Console.WriteLine("percentage of faces remaining: {0:F5}", (double) faces.Count / before);
-
-        return new Mesh(vertices, faces);
+        
+        return new Mesh(VerticesNormalize(vertices, faces), faces);
     }
 }

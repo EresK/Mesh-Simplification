@@ -1,10 +1,5 @@
 using MeshSimplification.Types;
 
-/*
-* this algorithm chooses which edge should be
-* deleted based on its length
-*/
-
 namespace MeshSimplification.Algorithms;
 
 public class EdgeContractionLength : Algorithm {
@@ -24,8 +19,7 @@ public class EdgeContractionLength : Algorithm {
         _ratio = ratio;
         return SimplifyLength(model);
     }
-
-    //general methods   ↓↓↓
+    
     private bool IfEdge(Edge edge, List<Edge> edges) {
         return edges.Exists(x =>
             x.Vertex1 == edge.Vertex1 && x.Vertex2 == edge.Vertex2 ||
@@ -57,9 +51,7 @@ public class EdgeContractionLength : Algorithm {
 
         return answer;
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //code based on length    ↓↓↓
+    
     private Model SimplifyLength(Model model) {
         Model modelNew = new Model();
 
@@ -95,7 +87,6 @@ public class EdgeContractionLength : Algorithm {
     private Mesh DeleteEdge(Mesh mesh, List<Edge> edges) {
         List<Vertex> vertices = mesh.Vertices;
         List<Face> faces = mesh.Faces;
-        // int before = mesh.Faces.Count;
 
         foreach (Edge edge in edges) {
             if (EdgeLength(mesh, edge) < _ratio * _length) {
@@ -125,12 +116,7 @@ public class EdgeContractionLength : Algorithm {
                 }
             }
         }
-
-        /*Console.WriteLine("Stat:");
-        Console.WriteLine("faces before: {0}", before);
-        Console.WriteLine("faces after: {0}", faces.Count);
-        Console.WriteLine("percentage of faces remaining: {0:F5}", (double)faces.Count/before);*/
-
-        return new Mesh(vertices, faces);
+        
+        return new Mesh(VerticesNormalize(vertices, faces), faces);
     }
 }
