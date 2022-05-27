@@ -21,7 +21,7 @@
 
             <DockPanel Grid.Row="0" Grid.ColumnSpan="1">
                 <Button Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="3 3 3 3" HorizontalAlignment="Left"
-                        Click="FileLoadClick">
+                        Click="LoadModelClk" ToolTip="Load model">
                     <Image Source="\Resources\icons\import.ico"></Image>
                 </Button>
             </DockPanel>

@@ -23,31 +23,54 @@
         <Border Grid.RowSpan="3" Grid.Column="1" BorderThickness="1" BorderBrush="LightGray"></Border>
 
         <DockPanel Grid.Row="0" Grid.ColumnSpan="3">
-            <Button Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="3 3 3 3" HorizontalAlignment="Left">
+            <Button Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="3 3 3 3" HorizontalAlignment="Left"
+                    Click="LoadModelClk" ToolTip="Load model">
                 <Image Source="\Resources\icons\import.ico"></Image>
             </Button>
-            <Button Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="3 3 0 3" HorizontalAlignment="Left">
+            <Button Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="3 3 0 3" HorizontalAlignment="Left"
+                    Click="RunAlgorithmsClk" ToolTip="Run algorithm(s)">
                 <Image Source="\Resources\icons\start.ico"></Image>
             </Button>
-            <Button Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="0 3 3 3" HorizontalAlignment="Right">
-                <Image Source="\Resources\icons\plus.ico"></Image>
+            <Button x:Name="addViewPortButton" Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="0 3 3 3" HorizontalAlignment="Right"
+                    Click="AddViewPortClk" ToolTip="Add viewport">
+                <Image x:Name="addViewPortImage" Source="\Resources\icons\plus.ico"></Image>
             </Button>
         </DockPanel>
 
         <Grid Grid.Row="2" Grid.Column="0">
-            <Button Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="3 3 3 3" VerticalAlignment="Top">
+            <Button Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="3 3 3 3" VerticalAlignment="Top"
+                    ToolTip="Settings">
                 <Image Source="\Resources\icons\settings.ico"></Image>
             </Button>
-            <Button Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="3 36 3 0" VerticalAlignment="Top">
+            <Button Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="3 36 3 0" VerticalAlignment="Top"
+                    ToolTip="Details">
                 <Image Source="\Resources\icons\details.ico"></Image>
             </Button>
-            <Button Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="3 0 3 3" VerticalAlignment="Bottom">
+            <Button Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="3 0 3 3" VerticalAlignment="Bottom"
+                    ToolTip="Info">
                 <Image Source="\Resources\icons\info.ico"></Image>
             </Button>
         </Grid>
 
-        <helix:HelixViewport3D Grid.Row="2" Grid.Column="2" x:Name="VPMain" AllowDrop="True">
-            <helix:DefaultLights/>
-        </helix:HelixViewport3D>
+        <UserControl Grid.Row="2" Grid.Column="2" x:Name="viewPortControl">
+            <Grid Background="Transparent" Drop="DropModel" AllowDrop="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" x:Name="vpMainColumn"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="0*" x:Name="vpAdditionColumn"/>
+                </Grid.ColumnDefinitions>
+
+                <helix:HelixViewport3D Grid.Row="0" Grid.Column="0" x:Name="viewPortMain" AllowDrop="True">
+                </helix:HelixViewport3D>
+
+                <Border Grid.Row="0" Grid.Column="1" BorderThickness="1" BorderBrush="LightGray"></Border>
+
+                <helix:HelixViewport3D Grid.Row="0" Grid.Column="2" x:Name="viewPortAddition" AllowDrop="True">
+                </helix:HelixViewport3D>
+            </Grid>
+        </UserControl>
     </Grid>
 </UserControl>

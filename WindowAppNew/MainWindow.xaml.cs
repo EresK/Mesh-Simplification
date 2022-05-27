@@ -10,7 +10,7 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
-    public void FileLoadClick(object sender, RoutedEventArgs e)
+    public void LoadModelClk(object sender, RoutedEventArgs e)
     {
         OpenFileDialog dialog = new OpenFileDialog();
 
