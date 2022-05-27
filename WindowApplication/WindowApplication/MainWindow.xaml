@@ -1,0 +1,89 @@
+﻿<Window x:Class="WindowApplication.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WindowApplication"
+        xmlns:helix="http://helix-toolkit.org/wpf"
+        mc:Ignorable="d"
+        Title="Mesh simplification" Height="600" Width="800" Closing="formClosing" Icon="/img/icon.jpg">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="0.8*"/>
+            <RowDefinition Height="0.2*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*" />
+            <ColumnDefinition Width="0.5*" />
+        </Grid.ColumnDefinitions>
+
+        <Menu Grid.Row="0" Grid.ColumnSpan="2" Height="20" VerticalAlignment="Top">
+
+            <MenuItem Header="Models">
+                <MenuItem Click="OpenFile" Header="Load model 1"></MenuItem>
+                <MenuItem Click="OpenFile2" Header="Load model 2"></MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="Algorithms">
+                <CheckBox x:Name="SelectAllBox" Content="Select all"/>
+                <StackPanel x:Name="AlgorithmPanel" Orientation="Vertical">
+                    <CheckBox x:Name="BoundBoxAABB" 
+                              IsChecked="{Binding ElementName=SelectAllBox, Path=IsChecked,
+                              Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                              Content="Bound box AABB"/>
+                    <CheckBox x:Name="BoundBoxOOB" 
+                              IsChecked="{Binding ElementName=SelectAllBox, Path=IsChecked,
+                              Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                              Content="Bound box OOB"/>
+                    <CheckBox x:Name="EdgeContractionAngle" 
+                              IsChecked="{Binding ElementName=SelectAllBox, Path=IsChecked,
+                              Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                              Content="Edge contraction angle"/>
+                    <CheckBox x:Name="EdgeContractionLength" 
+                              IsChecked="{Binding ElementName=SelectAllBox, Path=IsChecked,
+                              Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                              Content="Edge contraction length"/>
+                    <CheckBox x:Name="FastCollapsingInRadius" 
+                              IsChecked="{Binding ElementName=SelectAllBox, Path=IsChecked,
+                              Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                              Content="Fast collapsing radius"/>
+                    <CheckBox x:Name="FastCollapsingInRadiusWithAngle" 
+                              IsChecked="{Binding ElementName=SelectAllBox, Path=IsChecked,
+                              Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                              Content="Fast collaprsing radius with andle"/>
+                    <CheckBox x:Name="SmallFaceShuffle" 
+                              IsChecked="{Binding ElementName=SelectAllBox, Path=IsChecked,
+                              Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                              Content="Small face shuffle"/>
+                    <CheckBox x:Name="VertexCollapsingInRadius" 
+                              IsChecked="{Binding ElementName=SelectAllBox, Path=IsChecked,
+                              Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                              Content="Vertex collapsing radius"/>
+                </StackPanel>
+                <MenuItem Header="Run" Click="runAlgorithms"/>
+            </MenuItem>
+            <MenuItem Header="Properties">
+                <!--<MenuItem Header="Input directory" Click="setInputDirectory"/>-->
+                <MenuItem Header="Output directory" Click="setOutputDirectory"/>
+                <CheckBox  Content="Binary format" Click="ChangeIsBinaryOut" x:Name="IsBinaryOut"/>
+            </MenuItem>
+        </Menu>
+
+        <helix:HelixViewport3D Grid.Row="1" Grid.Column="0" x:Name="ViewPort1" Drop="ViewPortDrop" AllowDrop="True">
+            <helix:DefaultLights/>
+        </helix:HelixViewport3D>
+
+        <helix:HelixViewport3D Grid.Row="1" Grid.Column="1" x:Name="ViewPort2" Drop="ViewPortDrop" AllowDrop="True">
+            <helix:DefaultLights/>
+        </helix:HelixViewport3D>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" x:Name="TextBlock1" FontSize="20" FontStyle="Italic" TextAlignment="Center">
+            
+        </TextBlock>
+
+        <TextBlock Grid.Row="2" Grid.Column="1" x:Name="TextBlock2" FontSize="20" FontStyle="Italic" TextAlignment="Center">
+
+        </TextBlock>
+    </Grid>
+</Window>

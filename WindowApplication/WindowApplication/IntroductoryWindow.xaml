@@ -1,0 +1,76 @@
+﻿<Window x:Class="WindowApplication.IntroductoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WindowApplication"
+        mc:Ignorable="d"
+        Title="IntroductoryWindow" Height="450" Width="700" AllowsTransparency="True" 
+        Background="Transparent" WindowStyle="None" ResizeMode="NoResize" MouseMove="Window_MouseMove">
+    <Grid>
+
+        <Grid>
+            <Border>
+                <Border.Background>
+                    <LinearGradientBrush>
+                        <GradientStop Color="#581845" Offset="0.1"/>
+                        <GradientStop Color="#900C3F" Offset="0.3"/>
+                        <GradientStop Color="#C70039" Offset="0.5"/>
+                        <GradientStop Color="#FF5733" Offset="0.7"/>
+                        <GradientStop Color="#FFC300" Offset="0.9"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Image Margin="461,-79,-79,247" Source="/img/bubble2.jpg" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="37.257"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+            </Border>
+            <Image Width="118" Margin="10,150,572,176" Source="/img/icon.jpg" Visibility="Visible" Grid.IsSharedSizeScope="True" UseLayoutRounding="True"/>
+            <TextBlock Text="Mesh simplification"
+                        Foreground="White" FontSize="40" 
+                        FontFamily="/Fonts/Dosis.ttf" 
+                        FontWeight="Regular" Margin="133,184,136,210"/>
+            <Button Content="Start" Background="Transparent"
+                    Foreground="White" FontFamily="/Fonts/Dosis.ttf" FontSize="25"
+                    BorderBrush="White" BorderThickness="3" Margin="133,260,450,138" Click="startProject"/>
+            <Button Content="Exit" Background="Transparent"
+                        Foreground="White" FontFamily="/Fonts/Dosis.ttf" FontSize="25"
+                        BorderBrush="White" BorderThickness="3" Margin="319,260,268,138" Click="finishProject"/>
+        </Grid>
+        <Image Margin="513,255,-87,-52" Source="/img/bubble1.jpg" Stretch="Fill"/>
+
+        <!--<StackPanel Margin="35,385,-497,-96" RenderTransformOrigin="0.5,0.5" Grid.Column="2">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="40.983"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <Border Width="700" Height="25" Background="#70F99A" CornerRadius="20" Margin="150,15,0,0"/>
+            <Border Width="700" Height="25" Background="Fuchsia" CornerRadius="20" Margin="0,15,0,0"/>
+            <Border Width="700" Height="25" Background="DeepSkyBlue" CornerRadius="20" Margin="75,15,0,0"/>
+        </StackPanel>
+
+        <StackPanel Margin="-160,-122,85,411" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="3">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="40.983"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <Border Width="700" Height="25" Background="#70F99A" CornerRadius="20" Margin="150,0,0,0"/>
+            <Border Width="700" Height="25" Background="Fuchsia" CornerRadius="20" Margin="0,15,0,0"/>
+            <Border Width="700" Height="25" Background="DeepSkyBlue" CornerRadius="20" Margin="75,15,0,0"/>
+        </StackPanel>-->
+    </Grid>
+</Window>
