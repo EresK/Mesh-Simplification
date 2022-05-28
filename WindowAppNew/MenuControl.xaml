@@ -7,6 +7,41 @@
              xmlns:helix="http://helix-toolkit.org/wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <!-- Style for CheckBox in Details section -->
+        <Style TargetType="{x:Type CheckBox}" x:Key="checkboxStyle">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontFamily" Value="Cascadia Code"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="3 3 0 3"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image x:Name="checkboxImage" Source="\Resources\icons\ok_gray.ico"
+                                   Height="20" Width="20"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="checkboxImage" Property="Source" Value="\Resources\icons\ok.ico"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="checkboxImage" Property="Source" Value="\Resources\icons\ok_gray.ico"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type Hyperlink}" x:Key="hyperlinkStyle">
+            <Setter Property="TextDecorations" Value="None"/>
+            <Setter Property="Foreground" Value="#52277d"/>
+        </Style>
+    </UserControl.Resources>
+    
     <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -19,43 +54,51 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Border Grid.Row="1" Grid.ColumnSpan="3" BorderThickness="1" BorderBrush="LightGray"></Border>
-        <Border Grid.RowSpan="3" Grid.Column="1" BorderThickness="1" BorderBrush="LightGray"></Border>
+        <Border Grid.Row="1" Grid.ColumnSpan="3" BorderThickness="1" BorderBrush="LightGray"/>
+        <Border Grid.RowSpan="3" Grid.Column="1" BorderThickness="1" BorderBrush="LightGray"/>
 
+        <!-- Top buttons section -->
         <DockPanel Grid.Row="0" Grid.ColumnSpan="3">
             <Button Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="3 3 3 3" HorizontalAlignment="Left"
                     Click="LoadModelClk" ToolTip="Load model">
-                <Image Source="\Resources\icons\import.ico"></Image>
+                <Image Source="\Resources\icons\import.ico"/>
+            </Button>
+            <Button Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="3 3 3 3" HorizontalAlignment="Left"
+                    Click="RunAlgorithmsClk" ToolTip="Run algorithm(s)">
+                <Image Source="\Resources\icons\start.ico"/>
             </Button>
             <Button Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="3 3 0 3" HorizontalAlignment="Left"
-                    Click="RunAlgorithmsClk" ToolTip="Run algorithm(s)">
-                <Image Source="\Resources\icons\start.ico"></Image>
+                    Click="SetOutputDirectory" ToolTip="Output directory">
+                <Image Source="\Resources\icons\folder.ico"/>
             </Button>
             <Button x:Name="addViewPortButton" Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="0 3 3 3" HorizontalAlignment="Right"
                     Click="AddViewPortClk" ToolTip="Add viewport">
-                <Image x:Name="addViewPortImage" Source="\Resources\icons\plus.ico"></Image>
+                <Image x:Name="addViewPortImage" Source="\Resources\icons\plus.ico"/>
             </Button>
         </DockPanel>
 
+        <!-- Side buttons section -->
         <Grid Grid.Row="2" Grid.Column="0">
             <Button Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="3 3 3 3" VerticalAlignment="Top"
-                    ToolTip="Settings">
-                <Image Source="\Resources\icons\settings.ico"></Image>
+                    Click="SettingsClk" ToolTip="Settings">
+                <Image Source="\Resources\icons\settings.ico"/>
             </Button>
-            <Button Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="3 36 3 0" VerticalAlignment="Top"
-                    ToolTip="Details">
-                <Image Source="\Resources\icons\details.ico"></Image>
+            <Button Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="3 39 3 0" VerticalAlignment="Top"
+                    Click="DetailsClk" ToolTip="Details">
+                <Image Source="\Resources\icons\details.ico"/>
             </Button>
-            <Button Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="3 0 3 3" VerticalAlignment="Bottom"
-                    ToolTip="Info">
-                <Image Source="\Resources\icons\info.ico"></Image>
+            <Button Height="30" Width="30" Background="Transparent" BorderThickness="0" Margin="3 75 3 3" VerticalAlignment="Top"
+                    Click="InfoClk" ToolTip="Info">
+                <Image Source="\Resources\icons\info.ico"/>
             </Button>
         </Grid>
 
+        <!-- ViewPort section -->
         <UserControl Grid.Row="2" Grid.Column="2" x:Name="viewPortControl">
             <Grid Background="Transparent" Drop="DropModel" AllowDrop="True">
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
+                    <RowDefinition x:Name="vpMainRow" Height="*"/>
+                    <RowDefinition x:Name="vpAdditionRow" Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" x:Name="vpMainColumn"/>
@@ -63,14 +106,83 @@
                     <ColumnDefinition Width="0*" x:Name="vpAdditionColumn"/>
                 </Grid.ColumnDefinitions>
 
-                <helix:HelixViewport3D Grid.Row="0" Grid.Column="0" x:Name="viewPortMain" AllowDrop="True">
-                </helix:HelixViewport3D>
+                <helix:HelixViewport3D Grid.Row="0" Grid.Column="0" x:Name="viewPortMain" AllowDrop="True"/>
 
-                <Border Grid.Row="0" Grid.Column="1" BorderThickness="1" BorderBrush="LightGray"></Border>
+                <Border Grid.Row="0" Grid.Column="1" BorderThickness="1" BorderBrush="LightGray"/>
 
-                <helix:HelixViewport3D Grid.Row="0" Grid.Column="2" x:Name="viewPortAddition" AllowDrop="True">
-                </helix:HelixViewport3D>
+                <helix:HelixViewport3D Grid.Row="0" Grid.Column="2" x:Name="viewPortAddition" AllowDrop="True"/>
+                
+                <!-- Settings section -->
+                <ScrollViewer x:Name="scrollViewerAlgorithms" Grid.Row="0" Grid.Column="0" AllowDrop="False"
+                              Background="White" Visibility="Collapsed" Panel.ZIndex="-1">
+                    <StackPanel x:Name="panelAlgorithms">
+                        <CheckBox Style="{StaticResource checkboxStyle}" Name="chbox_AABB" Content="Bound Box AABB"/>
+                        <CheckBox Style="{StaticResource checkboxStyle}" Name="chbox_OOB" Content="Bound Box OOB"/>
+                        <CheckBox Style="{StaticResource checkboxStyle}" Name="chbox_ECAngle" Content="Edge Contraction Angle"/>
+                        <CheckBox Style="{StaticResource checkboxStyle}" Name="chbox_ECLength" Content="Edge Contraction Length"/>
+                        <CheckBox Style="{StaticResource checkboxStyle}" Name="chbox_VCR" Content="Vertex Collapsing in Radius"/>
+                        <CheckBox Style="{StaticResource checkboxStyle}" Name="chbox_FastVCR" Content="Fast Vertex Collapsing in Radius"/>
+                        <CheckBox Style="{StaticResource checkboxStyle}" Name="chbox_FastVCRAngle" Content="Fast Vertex Collapsing in Radius Angle"/>
+                        <CheckBox Style="{StaticResource checkboxStyle}" Name="chbox_Shuffle" Content="Small Face Shuffle"/>
+
+                        <Border BorderThickness="1" BorderBrush="LightGray" Margin="0 5 0 5"/>
+
+                        <CheckBox Style="{StaticResource checkboxStyle}" Name="chbox_IsBinaryOut" Content="Binary output"/>
+                        <CheckBox Style="{StaticResource checkboxStyle}" Name="chbox_GenerateTable" Content="Generate result table"/>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Detials section -->
+                <Grid x:Name="gridDetails" Grid.Row="1" Grid.ColumnSpan="3" AllowDrop="False"
+                      Background="White" Visibility="Collapsed" Panel.ZIndex="-1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Row="0" Grid.ColumnSpan="3" BorderThickness="1" BorderBrush="LightGray"/>
+
+                    <TextBlock x:Name="textBlockMain" Grid.Row="1" Grid.Column="0" FontFamily="Cascadia Code" FontSize="13"/>
+
+                    <Border Grid.RowSpan="2" Grid.Column="1" BorderThickness="1" BorderBrush="LightGray"/>
+
+                    <TextBlock x:Name="textBlockAddition" Grid.Row="1" Grid.Column="2" FontFamily="Cascadia Code" FontSize="13"/>
+                </Grid>
             </Grid>
         </UserControl>
+        
+        <Grid x:Name="infoGrid" Grid.Row="2" Grid.Column="2" Visibility="Collapsed" Background="White" Panel.ZIndex="-1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Image Grid.Row="0" Grid.Column="0" Height="25" Width="25" Margin="5 5 5 5"
+                   Source="\Resources\icons\github.ico"/>
+            <TextBlock Grid.Row="0" Grid.Column="1" FontFamily="Cascadia Code" FontSize="15" VerticalAlignment="Center">
+                Project: <Hyperlink Style="{StaticResource hyperlinkStyle}"
+                                    NavigateUri="https://github.com/EresK/Mesh-Simplification/" RequestNavigate="UrlClk">
+                    github.com/EresK/Mesh-Simplification</Hyperlink>
+            </TextBlock>
+
+            <TextBlock Grid.Row="1" Grid.Column="1" FontFamily="Cascadia Code" FontSize="15" VerticalAlignment="Center"
+                       LineStackingStrategy="BlockLineHeight" LineHeight="22">
+                Team:<LineBreak/>
+                <Hyperlink Style="{StaticResource hyperlinkStyle}" NavigateUri="https://github.com/sequut/" RequestNavigate="UrlClk">github.com/sequut</Hyperlink><LineBreak/>
+                <Hyperlink Style="{StaticResource hyperlinkStyle}" NavigateUri="https://github.com/PlesneviyGRIB/" RequestNavigate="UrlClk">github.com/PlesneviyGRIB</Hyperlink><LineBreak/>
+                <Hyperlink Style="{StaticResource hyperlinkStyle}" NavigateUri="https://github.com/Ingvar-fesh/" RequestNavigate="UrlClk">github.com/Ingvar-fesh</Hyperlink><LineBreak/>
+                <Hyperlink Style="{StaticResource hyperlinkStyle}" NavigateUri="https://github.com/EresK/" RequestNavigate="UrlClk">github.com/EresK</Hyperlink>
+            </TextBlock>
+        </Grid>
     </Grid>
 </UserControl>

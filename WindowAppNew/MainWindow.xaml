@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WindowAppNew"
         mc:Ignorable="d"
-        Title="Mesh Simplification" Height="450" Width="800">
+        Icon="\Resources\icons\logo.ico"
+        Title="Mesh Simplification" Height="450" Width="800" Closing="WindowClosing">
     <UserControl x:Name="userControl" Background="White">
         <Grid>
             <Grid.RowDefinitions>

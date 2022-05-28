@@ -8,52 +8,57 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\add.png" />
-    <None Remove="Resources\folder.png" />
+    <None Remove="Resources\fonts\Dosis.ttf" />
     <None Remove="Resources\icons\details.ico" />
     <None Remove="Resources\icons\export.ico" />
     <None Remove="Resources\icons\folder.ico" />
+    <None Remove="Resources\icons\github.ico" />
     <None Remove="Resources\icons\import.ico" />
     <None Remove="Resources\icons\info.ico" />
     <None Remove="Resources\icons\list.ico" />
+    <None Remove="Resources\icons\logo.ico" />
     <None Remove="Resources\icons\menu.ico" />
     <None Remove="Resources\icons\minus.ico" />
+    <None Remove="Resources\icons\ok.ico" />
+    <None Remove="Resources\icons\ok_gray.ico" />
     <None Remove="Resources\icons\plus.ico" />
     <None Remove="Resources\icons\settings.ico" />
     <None Remove="Resources\icons\start.ico" />
-    <None Remove="Resources\list.png" />
-    <None Remove="Resources\menu.ico" />
-    <None Remove="Resources\menu.svg" />
-    <None Remove="Resources\minus.png" />
-    <None Remove="Resources\play.png" />
-    <None Remove="Resources\settings.png" />
+    <None Remove="Resources\images\bubble1.jpg" />
+    <None Remove="Resources\images\bubble2.jpg" />
+    <None Remove="Resources\images\icon.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="HelixToolkit" Version="2.20.2" />
     <PackageReference Include="HelixToolkit.Core.Wpf" Version="2.20.2" />
+    <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\add.png" />
-    <Resource Include="Resources\folder.png" />
+    <ProjectReference Include="..\MeshSimplification\MeshSimplification.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\fonts\Dosis.ttf" />
     <Resource Include="Resources\icons\export.ico" />
     <Resource Include="Resources\icons\folder.ico" />
+    <Resource Include="Resources\icons\github.ico" />
     <Resource Include="Resources\icons\import.ico" />
     <Resource Include="Resources\icons\info.ico" />
     <Resource Include="Resources\icons\list.ico" />
+    <Resource Include="Resources\icons\logo.ico" />
     <Resource Include="Resources\icons\menu.ico" />
     <Resource Include="Resources\icons\minus.ico" />
+    <Resource Include="Resources\icons\ok.ico" />
+    <Resource Include="Resources\icons\ok_gray.ico" />
     <Resource Include="Resources\icons\plus.ico" />
     <Resource Include="Resources\icons\settings.ico" />
     <Resource Include="Resources\icons\details.ico" />
     <Resource Include="Resources\icons\start.ico" />
-    <Resource Include="Resources\list.png" />
-    <Resource Include="Resources\menu.ico" />
-    <Resource Include="Resources\menu.svg" />
-    <Resource Include="Resources\minus.png" />
-    <Resource Include="Resources\play.png" />
-    <Resource Include="Resources\settings.png" />
+    <Resource Include="Resources\images\bubble1.jpg" />
+    <Resource Include="Resources\images\bubble2.jpg" />
+    <Resource Include="Resources\images\icon.jpg" />
   </ItemGroup>
 
   <ItemGroup>
