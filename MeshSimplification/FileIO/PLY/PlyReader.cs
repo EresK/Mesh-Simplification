@@ -14,6 +14,34 @@ public class PlyReader {
         _isLittle = false;
     }
 
+    public ModelInfo ReadInfo(string filename)
+    {
+        ModelInfo modelInfo = null;
+        try
+        {
+            CultureInfo info = CultureInfo.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
+            using FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+
+            List<string> header = ReadHeader(fs);
+            List<Element> elems = ParseHeader(header);
+
+            modelInfo = GetModelInfo(elems);
+
+            Thread.CurrentThread.CurrentCulture = info;
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine(ex.Message);
+        }
+
+        if (modelInfo == null)
+            modelInfo = new ModelInfo(0, 0);
+
+        return modelInfo;
+    }
+
     public Model Read(string filename) {
         Model model = new Model();
 
@@ -127,6 +155,27 @@ public class PlyReader {
 
             return size;
         }
+    }
+
+    private ModelInfo GetModelInfo(List<Element> elems)
+    {
+        int vertices = 0;
+        int faces = 0;
+
+        foreach (Element e in elems)
+        {
+            switch (e.Name)
+            {
+                case "vertex":
+                    vertices = e.CountInFile;
+                    break;
+                case "face":
+                    faces = e.CountInFile;
+                    break;
+            }
+        }
+
+        return new ModelInfo(vertices, faces);
     }
     
     private Model ReadAscii(Stream stream, List<Element> elems) {

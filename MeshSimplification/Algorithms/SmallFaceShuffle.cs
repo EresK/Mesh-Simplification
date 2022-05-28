@@ -2,7 +2,7 @@ using System.Net.Http.Headers;
 using MeshSimplification.Algorithms;
 using MeshSimplification.Types;
 
-namespace MeshSimplification;
+namespace MeshSimplification.Algorithms;
 
 public class SmallFaceShuffle: Algorithm
 {

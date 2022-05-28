@@ -24,4 +24,19 @@ public class Model {
             sum += m.Faces.Count;
         return sum;
     }
+
+    public Model Copy()
+    {
+        Model model = new Model();
+        foreach (Mesh m in Meshes)
+        {
+            model.Meshes.Add(m.Copy());
+        }
+        return model;
+    }
+
+    public ModelInfo GetModelInfo()
+    {
+        return new ModelInfo(VerticesCount(), FacesCount());
+    }
 }

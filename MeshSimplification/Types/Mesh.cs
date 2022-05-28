@@ -13,4 +13,18 @@ public class Mesh {
         Vertices = vertices;
         Faces = faces;
     }
+
+    public Mesh Copy()
+    {
+        List<Vertex> vertices = new List<Vertex>();
+        List<Face> faces = new List<Face>();
+
+        foreach (Vertex v in Vertices)
+            vertices.Add(new Vertex(v.X, v.Y, v.Z));
+
+        foreach (Face f in Faces)
+            faces.Add(new Face(f.Vertices[0], f.Vertices[1], f.Vertices[2]));
+
+        return new Mesh(vertices, faces);
+    }
 }
