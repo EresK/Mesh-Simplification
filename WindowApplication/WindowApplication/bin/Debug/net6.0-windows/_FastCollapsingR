@@ -1,9 +1,0 @@
-ply
-format ascii 1.0
-element vertex 0
-property double x
-property double y
-property double z
-element face 0
-property list int int vertex_index
-end_header
