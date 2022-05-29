@@ -147,11 +147,11 @@
 
                     <Border Grid.Row="0" Grid.ColumnSpan="3" BorderThickness="1" BorderBrush="LightGray"/>
 
-                    <TextBlock x:Name="textBlockMain" Grid.Row="1" Grid.Column="0" FontFamily="Cascadia Code" FontSize="13"/>
+                    <TextBlock x:Name="textBlockMain" Grid.Row="1" Grid.Column="0" FontFamily="Cascadia Code" FontSize="20" TextAlignment="Center"/>
 
                     <Border Grid.RowSpan="2" Grid.Column="1" BorderThickness="1" BorderBrush="LightGray"/>
 
-                    <TextBlock x:Name="textBlockAddition" Grid.Row="1" Grid.Column="2" FontFamily="Cascadia Code" FontSize="13"/>
+                    <TextBlock x:Name="textBlockAddition" Grid.Row="1" Grid.Column="2" FontFamily="Cascadia Code" FontSize="20" TextAlignment="Center"/>
                 </Grid>
             </Grid>
         </UserControl>

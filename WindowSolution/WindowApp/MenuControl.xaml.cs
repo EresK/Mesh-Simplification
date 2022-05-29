@@ -75,6 +75,7 @@ namespace WindowApp
             {
                 viewPort.Children.Clear();
                 viewPort.Children.Add(new DefaultLights());
+                viewPort.RotateGesture = new MouseGesture(MouseAction.LeftClick);
                 viewPort.Children.Add(new ModelVisual3D() { Content = importer.Load(filename) });
 
                 UpdateDetails(viewPort);
